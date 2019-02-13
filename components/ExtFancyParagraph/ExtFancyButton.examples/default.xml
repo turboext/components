@@ -1,0 +1,7 @@
+<p data-name='ext-my-component' data-data='{"some-data": "some value"}'>
+    <div class="abc">
+        asd
+    </div>
+    asb
+    <button> </button>
+</p>

@@ -1,0 +1,53 @@
+.fancy-paragraph {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 20px 20px 20px 120px;
+  width: 100%;
+
+  margin-top: 20px;
+
+  background: black;
+  border: 2px solid black;
+
+  transition-property: background-color, color, border-color;
+  transition-duration: 0.2s;
+
+  box-sizing: border-box;
+
+  &__button.fancy-button {
+    position: absolute;
+    left: -2px;
+    top: -2px;
+    bottom: -2px;
+
+    margin: 0;
+
+    z-index: 1;
+
+    width: 100px;
+
+    &:after {
+      content: '';
+      position: absolute;
+
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+
+      background: black;
+      opacity: 0;
+
+      transition: 0.2s;
+    }
+
+    &:active {
+      transform: none;
+
+      &:after {
+        opacity: 0.1;
+      }
+    }
+  }
+}

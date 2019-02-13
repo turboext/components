@@ -1,0 +1,28 @@
+.fancy-button {
+  padding: 15px;
+  border: 0;
+  color: #fff;
+  background-color: #007bff;
+
+  text-align: center;
+
+  display: block;
+
+  font-size: 15px;
+  user-select: none;
+
+  transition: 0.2s transform;
+
+  width: 100%;
+
+  margin-top: 20px;
+
+  &:active, &:focus {
+    outline: none;
+    border: 0;
+  }
+
+  &:active {
+    transform: scale(0.96);
+  }
+}
