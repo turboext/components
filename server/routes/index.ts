@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import { resolve } from 'path';
 import { readFile } from 'fs-extra';
-import { getHtml } from '../rss-converter';
+import {getHtml} from '../getHtml';
 
 import preparePage from '../utils/preparePage';
 import handleErr from '../utils/handleError';
@@ -19,7 +19,7 @@ router.get('/render/:componentName/:componentExample', async (req: Request, res:
      */
     const componentName = pascalCase(req.params.componentName);
 
-    /* Не указываем `xml` в урле, т.к. это не несет смысловой нагрузки. Добавляем для нахожления файла. */
+    /* Не указываем xml в урле, т.к. это не несет смысловой нагрузки. Добавляем для нахожления файла. */
     const exampleName = `${req.params.componentExample}.xml`;
 
     const examplePath = resolve('components', componentName, `${componentName}.examples`, exampleName);
@@ -38,7 +38,6 @@ router.get('/render/:componentName/:componentExample', async (req: Request, res:
         'content-type': 'text/html; charset=utf-8',
         'i-requested-component': componentName,
         'i-requested-example': exampleName,
-        'i-raw-xml-data': JSON.stringify(xml.replace(/\s+/g, ' '))
     });
 
     res.end(data);
