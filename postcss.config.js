@@ -1,4 +1,12 @@
-'use strict';
+const precss = require('precss');
+const postcssImport = require('postcss-import');
+const postcssNested = require('postcss-nested');
+const postcssAutomath = require('postcss-automath');
+const postcssUrl = require('postcss-url');
+const autoprefixer = require('autoprefixer');
+const postcssReporter = require('postcss-reporter');
+const csswring = require('csswring');
+const postcssScss = require('postcss-scss');
 
 const browsers = [
     'android 4',
@@ -7,17 +15,17 @@ const browsers = [
 ];
 
 const plugins = [
-    require('precss')(),
-    require('postcss-import')(),
-    require('postcss-nested'),
-    require('postcss-automath')(),
-    require('postcss-url')({ url: 'inline' }),
-    require('autoprefixer')({ browsers }),
-    require('postcss-reporter')(),
-    require('csswring')()
+    precss(),
+    postcssImport(),
+    postcssNested,
+    postcssAutomath(),
+    postcssUrl({ url: 'inline' }),
+    autoprefixer({ browsers }),
+    postcssReporter(),
+    csswring()
 ];
 
 module.exports = {
     plugins,
-    parser: require('postcss-scss')
+    parser: postcssScss
 };

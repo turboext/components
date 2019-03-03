@@ -5,12 +5,16 @@ interface IFancyButtonProps {
     color?: string;
     className?: string;
     onClick?: () => void;
+    name: string;
 }
 
-export default ({ color, className, onClick }: IFancyButtonProps) => {
-    return (
-        <button className={`fancy-button ${className}`} style={{ backgroundColor: color }} onClick={onClick}>
-            click me {name}
-        </button>
-    );
-};
+const title = typeof window !== 'undefined' && true && window.document.title && window;
+
+export default ({ color, className, onClick }: IFancyButtonProps) => (
+    <button
+        className={`fancy-button ${className}`} onClick={onClick} style={{ backgroundColor: color }}
+        type="button"
+    >
+        click me {title}
+    </button>
+);

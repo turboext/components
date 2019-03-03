@@ -1,16 +1,16 @@
-import { NextFunction, Request, Response, Router } from 'express';
 import { resolve } from 'path';
+import { NextFunction, Request, Response, Router as routerFactory } from 'express';
 import { readFile } from 'fs-extra';
-import {getHtml} from '../getHtml';
+import { getHtml } from '../getHtml';
 
 import preparePage from '../utils/preparePage';
 import handleErr from '../utils/handleError';
 
 import pascalCase = require('pascal-case');
 
-const router = Router();
+const router = routerFactory();
 
-router.get('/render/:componentName/:componentExample', async (req: Request, res: Response, next: NextFunction) => {
+router.get('/render/:componentName/:componentExample', async(req: Request, res: Response, next: NextFunction) => {
     const CODE_SUCCESS = 200;
 
     /*
@@ -24,20 +24,21 @@ router.get('/render/:componentName/:componentExample', async (req: Request, res:
 
     const examplePath = resolve('components', componentName, `${componentName}.examples`, exampleName);
 
-    let xml;
-    let data;
+    let xml = '';
+    let data = '';
 
     try {
         xml = await readFile(examplePath, 'utf8');
         data = preparePage(await getHtml(xml));
     } catch (e) {
-        return next(handleErr(e, examplePath));
+        next(handleErr(e, examplePath));
+        return;
     }
 
     res.writeHead(CODE_SUCCESS, {
         'content-type': 'text/html; charset=utf-8',
         'i-requested-component': componentName,
-        'i-requested-example': exampleName,
+        'i-requested-example': exampleName
     });
 
     res.end(data);

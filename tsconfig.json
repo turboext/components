@@ -26,9 +26,7 @@
     "components/**/**.ts",
     "components/**/**.tsx",
     "server/**/**.ts",
-    "tools/**/**.ts"
-  ],
-  "exclude": [
-
+    "tools/**/**.ts",
+    "types/**/*.d.ts"
   ]
 }

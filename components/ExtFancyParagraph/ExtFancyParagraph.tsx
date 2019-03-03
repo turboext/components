@@ -11,7 +11,7 @@ interface IFancyParagraphState {
 }
 
 class ExtFancyParagraph extends React.PureComponent<IFancyParagraphProps, IFancyParagraphState> {
-    constructor(props: IFancyParagraphProps) {
+    public constructor(props: IFancyParagraphProps) {
         super(props);
 
         this.state = {
@@ -28,9 +28,9 @@ class ExtFancyParagraph extends React.PureComponent<IFancyParagraphProps, IFancy
         });
     }
 
-    public render() {
+    public render(): React.ReactNode {
         const { children } = this.props;
-        const {backgroundColor, color} = this.state;
+        const { backgroundColor, color } = this.state;
 
         const button = React.cloneElement(children[0], {
             className: 'fancy-paragraph__button',
@@ -40,9 +40,9 @@ class ExtFancyParagraph extends React.PureComponent<IFancyParagraphProps, IFancy
         const text = React.Children.toArray(children).slice(1);
 
         return (
-            <div className={'fancy-paragraph'} style={{ backgroundColor, color }}>
+            <div className="fancy-paragraph" style={{ backgroundColor, color }}>
                 {button}
-                <p className={'fancy-paragraph__text-container'}>
+                <p className="fancy-paragraph__text-container">
                     {text}
                 </p>
             </div>

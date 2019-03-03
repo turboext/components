@@ -1,8 +1,7 @@
+import { createServer as createHttpsServer } from 'https';
+import { createServer as createHttpServer } from 'http';
 import * as express from 'express';
 import { readFileSync } from 'fs-extra';
-
-import {createServer as createHttpsServer} from 'https';
-import {createServer as createHttpServer} from 'http';
 
 import router from './routes';
 
@@ -22,7 +21,7 @@ const httpsServer = createHttpsServer({
 const HTTP_PORT = 8081;
 const HTTPS_PORT = 8443;
 
-// tslint:disable no-console
+/* eslint-disable no-console */
 httpServer.listen(HTTP_PORT, () => {
     console.log('http server is listening on', HTTP_PORT);
 });

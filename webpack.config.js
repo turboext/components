@@ -1,4 +1,5 @@
 const { resolve } = require('path');
+const { cpus } = require('os');
 
 const webpack = require('webpack');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
@@ -9,22 +10,28 @@ module.exports = {
 
     watch: true,
 
-    devtool: "inline-cheap-source-map",
+    devtool: 'inline-cheap-source-map',
 
     output: {
         path: resolve(__dirname, 'dist'),
-        filename: 'index.js',
+        filename: 'index.js'
     },
 
     resolve: {
         modules: ['node_modules'],
-        extensions: ['.js', '.json', '.ts', '.tsx', '.scss']
+        extensions: [
+            '.js',
+            '.json',
+            '.ts',
+            '.tsx',
+            '.scss'
+        ]
     },
 
     module: {
         rules: [
             {
-                test: /\.scss$/,
+                test: /\.scss$/u,
                 use: [
                     'style-loader',
                     MiniCssExtractPlugin.loader,
@@ -39,11 +46,13 @@ module.exports = {
                 ]
             },
             {
-                test: /\.(ts|tsx)$/,
+                test: /\.(ts|tsx)$/u,
                 use: [
                     {
                         loader: 'thread-loader',
-                        options: { workers: require('os').cpus().length - 2 }
+                        options: {
+                            workers: cpus().length - 2
+                        }
                     },
                     {
                         loader: 'babel-loader',
@@ -73,11 +82,14 @@ module.exports = {
                             ]
                         }
                     },
-                    { loader: 'ts-loader', options: { happyPackMode: true } }
+                    {
+                        loader: 'ts-loader',
+                        options: { happyPackMode: true }
+                    }
                 ]
             },
             {
-                test: /\.inline\.\w+$/,
+                test: /\.inline\.\w+$/u,
                 loader: 'raw-loader'
             }
         ]
@@ -89,7 +101,6 @@ module.exports = {
         }),
         new ForkTsCheckerWebpackPlugin({
             checkSyntacticErrors: true,
-            tslint: resolve(__dirname, 'tslint.json'),
             tsconfig: resolve(__dirname, 'tsconfig.json')
         }),
         new MiniCssExtractPlugin({
