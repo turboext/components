@@ -7,8 +7,8 @@ const wrapInRegistry = (file: string): string => `window.Registry({'${file}': ` 
 const componentsRoot = resolve(__dirname, '..', 'components');
 const registryPath = resolve(__dirname, '..', '.tmp', 'registry.tsx');
 
-const registry = readdirSync(componentsRoot).
-    map((file: string) => wrapInRegistry(file)).
-    join('\n');
+const registry = readdirSync(componentsRoot)
+    .map((file: string) => wrapInRegistry(file))
+    .join('\n');
 
 outputFileSync(registryPath, registry);

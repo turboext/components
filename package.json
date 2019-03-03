@@ -40,6 +40,7 @@
     "axios": "0.18.0",
     "babel-loader": "8.0.5",
     "babel-plugin-transform-react-remove-prop-types": "0.4.24",
+    "chalk": "2.4.2",
     "cheerio": "1.0.0-rc.2",
     "concurrently": "4.1.0",
     "css-loader": "2.1.0",

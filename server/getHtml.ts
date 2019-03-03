@@ -1,5 +1,6 @@
 import rp = require('request-promise');
 
+// @ts-ignore broken typings
 export const getHtml = (xmlData: string): Promise<string> => rp({
     uri: 'http://localhost:8080/',
     method: 'POST',
@@ -7,4 +8,4 @@ export const getHtml = (xmlData: string): Promise<string> => rp({
         'content-type': 'application/json'
     },
     body: JSON.stringify({ xml: xmlData })
-}).then((data: string) => data);
+});

@@ -24,13 +24,16 @@ module.exports = {
         '@typescript-eslint',
         'react',
         'import',
-        'babel'
+        'babel',
+        'local-rules'
     ],
     env: {
         browser: true,
         es6: true
     },
     rules: {
+        'react/prefer-stateless-function': 0,
+        'react/prefer-es6-class': 2,
         'react/jsx-one-expression-per-line': 0,
         'react/display-name': 0,
         'react/jsx-filename-extension': [
@@ -47,7 +50,7 @@ module.exports = {
 
         // https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/order.md
         'import/order': [
-            1,
+            2,
             {
                 groups: [
                     'builtin',
@@ -91,6 +94,7 @@ module.exports = {
         'no-caller': 2,
         'no-cond-assign': 2,
         'no-constant-condition': 2,
+        'no-confusing-arrow': 0,
         'no-debugger': 2,
         'no-dupe-args': 2,
         'no-dupe-keys': 2,
@@ -114,6 +118,7 @@ module.exports = {
             }
         ],
         'no-global-strict': 0,
+        'no-continue': 0,
         'max-params': [
             2,
             5
@@ -280,9 +285,19 @@ module.exports = {
         'no-else-return': 2,
         'no-extra-bind': 2,
         'no-return-assign': 0,
-        'yoda': 2
+        'yoda': 2,
+        'dot-location': [2, 'property'],
+
+        'local-rules/no-async': 2,
+        'local-rules/no-undefined-window': 2
     },
     overrides: [
+        {
+            files: ['components/**/*.tsx'],
+            rules: {
+                'local-rules/correct-file-export': 2
+            }
+        },
         {
             files: [
                 '**/*.tsx',
@@ -336,7 +351,9 @@ module.exports = {
                 'webpack.config.js',
                 'server/**/*.*',
                 'tools/**/*.*',
-                'postcss.config.js'
+                'postcss.config.js',
+                'lints/**/*.*',
+                'eslint-local-rules.js'
             ],
             env: {
                 node: true
