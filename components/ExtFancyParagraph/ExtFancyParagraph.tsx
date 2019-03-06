@@ -1,5 +1,5 @@
 import * as React from 'react';
-import './ExtFancyButton.scss';
+import './ExtFancyParagraph.scss';
 
 interface IFancyParagraphProps {
     children: React.ReactChildren;
@@ -10,7 +10,7 @@ interface IFancyParagraphState {
     color: string;
 }
 
-class ExtFancyParagraph extends React.PureComponent<IFancyParagraphProps, IFancyParagraphState> {
+export class ExtFancyParagraph extends React.PureComponent<IFancyParagraphProps, IFancyParagraphState> {
     public constructor(props: IFancyParagraphProps) {
         super(props);
 
@@ -49,5 +49,3 @@ class ExtFancyParagraph extends React.PureComponent<IFancyParagraphProps, IFancy
         );
     }
 }
-
-export default ExtFancyParagraph;

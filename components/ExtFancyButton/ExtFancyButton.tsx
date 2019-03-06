@@ -10,11 +10,13 @@ interface IFancyButtonProps {
 
 const title = typeof window !== 'undefined' && true && window.document.title && window;
 
-export default ({ color, className, onClick }: IFancyButtonProps) => (
-    <button
-        className={`fancy-button ${className}`} onClick={onClick} style={{ backgroundColor: color }}
-        type="button"
-    >
-        click me {title}
-    </button>
-);
+export function ExtFancyButton({ color, className, onClick }: IFancyButtonProps): React.ReactNode {
+    return (
+        <button
+            className={`fancy-button ${className}`} onClick={onClick} style={{ backgroundColor: color }}
+            type="button"
+        >
+            click me {title}
+        </button>
+    );
+}

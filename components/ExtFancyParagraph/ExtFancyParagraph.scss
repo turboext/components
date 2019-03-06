@@ -10,9 +10,6 @@
   background: black;
   border: 2px solid black;
 
-  transition-property: background-color, color, border-color;
-  transition-duration: 0.2s;
-
   box-sizing: border-box;
 
   &__button.fancy-button {
@@ -38,8 +35,6 @@
 
       background: black;
       opacity: 0;
-
-      transition: 0.2s;
     }
 
     &:active {
