@@ -8,20 +8,33 @@ const ruleTester = new RuleTester();
 
 const filename = resolve(__dirname, '..', '..', 'components', 'myComponent', 'myComponent.tsx');
 
-const createErrorMessage = () => 'No default export of class myComponent extending react was found';
+const createErrorMessage = () => 'No named export of class or function declaration in myComponent was found';
 const createSuite = getCreateSuite(createErrorMessage, { filename });
 
 ruleTester.run('correct-file-export', rule, {
     valid: [
+        createSuite('import * as React from \'react\'; export class myComponent extends React.PureComponent' +
+            ' { componentDidMount() { setTimeout(() => console.log(123), 123) } }'),
+
+        createSuite('import * as React from \'react\'; class myComponent extends React.PureComponent' +
+            ' { componentDidMount() { setTimeout(() => console.log(123), 123) } }; export { myComponent };'),
+
+        createSuite('import * as React from \'react\'; export function myComponent () {}'),
+
+        createSuite('import * as React from \'react\'; function myComponent () {}; export { myComponent };')
+    ],
+    invalid: [
         // React safe lifecycle and namespace import
         createSuite('import * as React from \'react\'; export default class myComponent extends React.PureComponent' +
-            ' { componentDidMount() { setTimeout(() => console.log(123), 123) } }'),
+            ' { componentDidMount() { setTimeout(() => console.log(123), 123) } }', 'myComponent'),
 
         // React safe lifecycle and namespace import
         createSuite('import * as React from \'react\'; class myComponent extends React.PureComponent' +
-            ' { componentDidMount() { setTimeout(() => console.log(123), 123) } }; export default myComponent;')
-    ],
-    invalid: [
+            ' { componentDidMount() { setTimeout(() => console.log(123), 123) } }; export default myComponent;', 'myComponent'),
+
+        createSuite('import * as React from \'react\'; class myComponentExport extends React.PureComponent' +
+            ' { componentDidMount() { setTimeout(() => console.log(123), 123) } }; export const myComponent = myComponentExport;', 'myComponent'),
+
         // React unsafe lifecycle and namespace import — setTimeout
         createSuite('import * as React from \'react\'; class MyComponent extends React.PureComponent' +
             ' { render() { setTimeout(() => console.log(123), 123) } }', 'setTimeout'),

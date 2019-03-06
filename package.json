@@ -4,10 +4,15 @@
   "description": "Dev environment for custom user components in turbo",
   "main": "server/index.js",
   "scripts": {
-    "start": "npm run build:registry && concurrently 'npm run watch:server' 'webpack'",
+    "start": "npm run build:registry && concurrently 'npm run watch:server' 'webpack' 'npm run watch:registry'",
     "start:dev": "nodemon -e ts -w server -x npm run watch:server",
     "watch:server": "ts-node ./server/index.ts",
-    "build:registry": "ts-node tools/build-registry.ts"
+    "build:registry": "ts-node tools/build-registry.ts",
+    "watch:registry": "ts-node tools/watch-registry.ts",
+    "lint": "npm run lint:style && npm run lint:script && npm run lint:filesystem",
+    "lint:style": "stylelint components/**/*.scss",
+    "lint:script": "eslint '{components,server,lints}/**/*.{ts,tsx,js}'",
+    "lint:filesystem": "ts-node tools/lint-filesystem.ts"
   },
   "repository": {
     "type": "git",
@@ -18,6 +23,16 @@
     "url": "https://github.com/turboext/custom-components/issues"
   },
   "homepage": "https://github.com/turboext/custom-components#readme",
+  "husky": {
+    "hooks": {
+      "pre-commit": "tsc --noEmit && lint-staged"
+    }
+  },
+  "lint-staged": {
+    "components/**/*.scss": "stylelint",
+    "components/**/*.*": "npm run lint:filesystem",
+    "{components,server,lints}/**/*.{ts,tsx,js}": "eslint"
+  },
   "devDependencies": {
     "@babel/core": "7.2.2",
     "@babel/plugin-proposal-object-rest-spread": "7.3.2",
@@ -42,7 +57,9 @@
     "babel-plugin-transform-react-remove-prop-types": "0.4.24",
     "chalk": "2.4.2",
     "cheerio": "1.0.0-rc.2",
+    "chokidar-cli": "1.2.2",
     "concurrently": "4.1.0",
+    "cross-spawn": "6.0.5",
     "css-loader": "2.1.0",
     "csswring": "7.0.0",
     "dashify": "2.0.0",
@@ -54,6 +71,8 @@
     "express": "4.16.4",
     "fork-ts-checker-webpack-plugin": "0.5.2",
     "fs-extra": "7.0.1",
+    "husky": "1.3.1",
+    "lint-staged": "8.1.5",
     "lodash": "4.17.11",
     "mini-css-extract-plugin": "0.5.0",
     "mocha": "6.0.2",
@@ -73,6 +92,10 @@
     "request": "2.88.0",
     "request-promise": "4.2.2",
     "style-loader": "0.23.1",
+    "stylelint": "9.10.1",
+    "stylelint-config-recommended-scss": "3.2.0",
+    "stylelint-high-performance-animation": "1.1.1",
+    "stylelint-scss": "3.5.4",
     "thread-loader": "2.1.2",
     "ts-loader": "5.3.3",
     "ts-node": "8.0.2",

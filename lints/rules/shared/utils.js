@@ -13,9 +13,11 @@ const isVariableDeclaration = is('VariableDeclaration');
 const isAssignmentExpression = is('AssignmentExpression');
 const isMethodDefinition = is('MethodDefinition');
 const isClassDeclaration = is('ClassDeclaration');
+const isFunctionDeclaration = is('FunctionDeclaration');
 const isImportDeclaration = is('ImportDeclaration');
 const isLiteral = is('Literal');
 const isExportDefaultDeclaration = is('ExportDefaultDeclaration');
+const isExportNamedDeclaration = is('ExportNamedDeclaration');
 
 // Is root sounds better
 const isRoot = is('Program');
@@ -68,8 +70,10 @@ module.exports = {
     isAssignmentExpression,
     isMethodDefinition,
     isClassDeclaration,
+    isFunctionDeclaration,
     isImportDeclaration,
     isExportDefaultDeclaration,
+    isExportNamedDeclaration,
     isLiteral,
 
     isRoot,

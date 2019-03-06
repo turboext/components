@@ -269,6 +269,7 @@ module.exports = {
             1,
             'never'
         ],
+        'func-style': 0,
 
         // Best practices
         'block-scoped-var': 2,

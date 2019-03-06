@@ -1,6 +1,6 @@
 const { isRoot, isMethodDefinition, isIdentifier, isClassDeclaration } = require('./utils');
 
-const isReactImportedNames = require('./isReactImportedNames')
+const isReactImportedNames = require('./isReactImportedNames');
 const getSuperclassName = require('./getSuperclassName');
 
 /** @see http://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/ */

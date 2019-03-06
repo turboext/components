@@ -1,5 +1,5 @@
 const { relative, resolve, basename } = require('path');
-const { isExportDefaultDeclaration, isClassDeclaration, isIdentifier } = require('../shared/utils');
+const { isExportNamedDeclaration, isClassDeclaration, isFunctionDeclaration, isIdentifier } = require('../shared/utils');
 const getSuperclassName = require('../shared/getSuperclassName');
 const isReactImportedNames = require('../shared/isReactImportedNames');
 
@@ -8,48 +8,85 @@ const itemRe = /components\/([^/]+)\/(\1)\.tsx/u;
 
 const correctExport = node => [
     isIdentifier,
-    isClassDeclaration
+    isClassDeclaration,
+    isFunctionDeclaration
 ].some(fn => fn(node));
 
 module.exports = {
+    // eslint-disable-next-line max-lines-per-function
     create(context) {
         return {
+            // eslint-disable-next-line max-lines-per-function
             Program(node) {
                 // Get the context of the program
                 const local = relative(base, context.getFilename());
                 if (!itemRe.test(local)) {
-                    console.log(local);
                     return;
                 }
 
                 const componentName = basename(local, '.tsx');
 
-                const exports = node.body.filter(isExportDefaultDeclaration);
-                const declarations = node.body.filter(isClassDeclaration);
+                const exports = node.body.filter(isExportNamedDeclaration);
 
-                const names = exports.map(({ declaration }) => {
-                    if (!correctExport(declaration)) {
+                const classDeclarations = node.body.filter(isClassDeclaration);
+                const functionDeclarations = node.body.filter(isFunctionDeclaration);
+                const findDeclarationByTypeAndName = (decls, name) => decls
+                    .find(decl => isIdentifier(decl.id) && decl.id.name === name);
+
+                const names = exports.map(({ declaration, specifiers }) => {
+                    let currentDecl = declaration;
+
+                    // For: export { aaa, bbb }
+                    if (specifiers.length) {
+                        const exportNamedAsFile = specifiers
+                            .find(decl => decl.exported.name === componentName);
+
+                        if (!exportNamedAsFile) {
+                            return null;
+                        }
+
+                        currentDecl = findDeclarationByTypeAndName(classDeclarations, componentName) ||
+                            findDeclarationByTypeAndName(functionDeclarations, componentName);
+                    }
+
+                    if (!currentDecl || !correctExport(currentDecl)) {
                         return null;
                     }
 
-                    const declarationFinder = decl => isIdentifier(decl.id) && decl.id.name === declaration.name;
+                    const classInstance = isClassDeclaration(currentDecl) ?
+                        currentDecl :
+                        findDeclarationByTypeAndName(classDeclarations, currentDecl.name);
 
-                    const classInstance = isClassDeclaration(declaration) ?
-                        declaration :
-                        declarations.find(declarationFinder);
+                    if (classInstance) {
+                        const module = getSuperclassName(classInstance);
 
-                    return classInstance ? {
-                        name: classInstance.id.name,
-                        module: getSuperclassName(classInstance)
-                    } : null;
+                        if (!module || !isReactImportedNames(node, module)) {
+                            return null;
+                        }
+
+                        return {
+                            name: classInstance.id.name
+                        };
+                    }
+
+                    const functionInstance = isFunctionDeclaration(currentDecl) && currentDecl;
+
+                    if (functionInstance) {
+                        return {
+                            name: functionInstance.id.name
+                        };
+                    }
+
+                    return null;
                 });
 
-                const reactClasses = names.filter(({ module, name }) => isReactImportedNames(node, module) &&
-                    name === componentName);
+                const reactClassesOfFunctions = names
+                    .filter(Boolean)
+                    .filter(({ name }) => name === componentName);
 
-                if (!reactClasses.length) {
+                if (!reactClassesOfFunctions.length) {
                     context.report({
-                        message: `No default export of class ${componentName} extending react was found`,
+                        message: `No named export of class or function declaration in ${componentName} was found`,
                         node
                     });
                 }
@@ -61,8 +98,8 @@ module.exports = {
     meta: {
         docs: {
             category: 'Turbo Custom Components custom lints',
-            description: 'Disallow usage of window in node.js and browser environments without typeof guard',
-            url: 'https://github.com/turboext/ugc/tree/master/lints/eslint/no-undefined-window/Readme.md'
+            description: 'Disallow usage of default exports in components',
+            url: 'https://github.com/turboext/custom-components/tree/master/lints/eslint/correct-file-export/Readme.md'
         },
         schema: []
     }
