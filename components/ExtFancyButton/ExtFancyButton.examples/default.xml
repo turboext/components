@@ -1,7 +1,7 @@
-<p data-name='ext-fancy-button' data-data='{"some-data": "some value"}'>
+<ExtFancyButton data-data="some value">
     <div class="abc">
          Привет мир!!!
     </div>
     hi
     <button> </button>
-</p>
+</ExtFancyButton>

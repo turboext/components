@@ -1,4 +1,4 @@
-<p data-name='ext-my-component' data-data='{"some-data": "some value"}'>
+<ExtFancyParagraph>
     <div class="abc">
         asd
     </div>

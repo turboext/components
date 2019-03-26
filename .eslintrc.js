@@ -23,6 +23,7 @@ module.exports = {
     plugins: [
         '@typescript-eslint',
         'react',
+        'react-hooks',
         'import',
         'babel',
         'local-rules'
@@ -47,6 +48,12 @@ module.exports = {
         'react/jsx-no-literals': 0,
         'react/destructuring-assignment': 0,
         'react/no-set-state': 0,
+        'react/sort-comp': 0,
+        'react/jsx-indent': 0,
+        'react/jsx-child-element-spacing': 0,
+        'typescript-eslint/indent': 0,
+        'react-hooks/rules-of-hooks': 'error',
+        'react-hooks/exhaustive-deps': 'warn',
 
         // https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/order.md
         'import/order': [
@@ -133,11 +140,13 @@ module.exports = {
         'use-isnan': 2,
         'no-ternary': 0,
         'no-magic-numbers': 0,
+        'class-methods-use-this': 0,
         'multiline-ternary': 0,
         'object-property-newline': 0,
         'sort-imports': 0,
         'sort-keys': 0,
         'no-process-env': 0,
+        'no-inline-comments': 0,
         'no-extra-parens': [
             2,
             'all',
@@ -339,7 +348,7 @@ module.exports = {
                 '@typescript-eslint/no-extraneous-class': 2,
                 '@typescript-eslint/no-for-in-array': 2,
                 '@typescript-eslint/no-this-alias': 2,
-                '@typescript-eslint/no-type-alias': 2,
+                '@typescript-eslint/no-type-alias': 0,
                 '@typescript-eslint/no-unnecessary-qualifier': 2,
                 '@typescript-eslint/no-unnecessary-type-assertion': 2,
                 '@typescript-eslint/no-useless-constructor': 2,

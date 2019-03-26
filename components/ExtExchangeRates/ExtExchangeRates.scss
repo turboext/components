@@ -1,0 +1,53 @@
+.ext-exchange-rates {
+    display: inline-block;
+    min-height: 64px;
+    min-width: 100%;
+    max-width: 100%;
+    margin-left: -14px;
+    margin-right: -14px;
+    padding: 22px 14px;
+    background-color: #1e1e1e;
+
+    &__description {
+        color: #8f8e94;
+        font-size: 14px;
+        line-height: 16px;
+        font-style: normal;
+        font-weight: normal;
+        margin-top: 8px;
+    }
+
+    &__wrapper {
+        width: 100%;
+        overflow: auto;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    &__loading,
+    &__rate {
+        font-size: 16px;
+        font-weight: bold;
+        font-style: normal;
+
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        color: #fff;
+    }
+
+    &__rate {
+        margin-right: 20px;
+
+        &:last-of-type {
+            margin-right: 0;
+        }
+    }
+
+    &__value_green {
+        color: #4cda64;
+    }
+
+    &__value_red {
+        color: #ff3b2f;
+    }
+}
