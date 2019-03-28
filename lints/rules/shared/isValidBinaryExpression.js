@@ -1,4 +1,4 @@
-const { isBinaryExpression, isUnaryExpression } = require('../shared/utils');
+const { isBinaryExpression, isUnaryExpression } = require('./utils');
 const isCorrectOperator = (operator, expected) => expected.some(e => e === operator);
 
 /** Being safe means not to throw */

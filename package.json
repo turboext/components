@@ -9,7 +9,8 @@
     "watch:server": "ts-node ./server/index.ts",
     "build:registry": "ts-node tools/build-registry.ts",
     "watch:registry": "ts-node tools/watch-registry.ts",
-    "lint": "npm run lint:style && npm run lint:script && npm run lint:filesystem",
+    "lint": "concurrently 'npm run lint:style' 'npm run lint:script' 'npm run lint:filesystem'",
+    "lint:fix": "concurrently 'npm run lint:style -- --fix'  'npm run lint:script -- --fix'",
     "lint:style": "stylelint components/**/*.scss",
     "lint:script": "eslint '{components,server,lints}/**/*.{ts,tsx,js}'",
     "lint:filesystem": "ts-node tools/lint-filesystem.ts"

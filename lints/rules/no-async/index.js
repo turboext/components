@@ -1,5 +1,10 @@
 const globals = require('./globals');
+
+const { isSafeTypeofExpression } = require('../shared/isValidBinaryExpression');
+const { isSafeLogicalExpression } = require('../shared/isSafeLogicalExpression');
+const isGuardedUpper = require('../shared/isGuardedUpper');
 const isSafeReactMethod = require('../shared/isSafeReactMethod');
+
 const getFirstParent = require('../shared/getFirstParent');
 
 module.exports = {
@@ -7,11 +12,20 @@ module.exports = {
         const checkIsSafe = ({ identifier: node }) => {
             const startFrom = getFirstParent(node);
 
-            if (isSafeReactMethod(startFrom)) {
+            // From fastest to slowest
+
+            // Typeof window
+            if (isSafeTypeofExpression(startFrom) ||
+                // Typeof window !== undefined && document
+                isSafeLogicalExpression(startFrom) ||
+                // ComponentDidMount() { alert('mounted!' }
+                isSafeReactMethod(startFrom) ||
+                // If (typeof window !== 'undefined') {alert('window is defined!')}
+                isGuardedUpper(startFrom)) {
                 return;
             }
             context.report({
-                message: `Variable [${node.name}] should be used only in safe react lifecycle methods`,
+                message: `Variable [${node.name}] should be protected via (typeof window !== 'undefined')`,
                 node
             });
         };

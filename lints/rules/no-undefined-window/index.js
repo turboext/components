@@ -2,9 +2,9 @@
 
 const globals = require('./globals');
 
-const { isSafeTypeofExpression } = require('./isValidBinaryExpression');
-const { isSafeLogicalExpression } = require('./isSafeLogicalExpression');
-const isGuardedUpper = require('./isGuardedUpper');
+const { isSafeTypeofExpression } = require('../shared/isValidBinaryExpression');
+const { isSafeLogicalExpression } = require('../shared/isSafeLogicalExpression');
+const isGuardedUpper = require('../shared/isGuardedUpper');
 const isSafeReactMethod = require('../shared/isSafeReactMethod');
 
 const getFirstParent = require('../shared/getFirstParent');

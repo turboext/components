@@ -1,5 +1,5 @@
 const { isValidBinary, isValidBinaryReverse } = require('./isValidBinaryExpression');
-const { isDisjunction, isConjunction, isLogicalExpression, unwrapUnaryOperator } = require('../shared/utils');
+const { isDisjunction, isConjunction, isLogicalExpression, unwrapUnaryOperator } = require('./utils');
 
 /* Btw, I tried to create base function to derive normal and reverse ones, but it scared me so I stopped */
 

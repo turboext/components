@@ -1,6 +1,6 @@
 const { isValidBinary, isValidBinaryReverse } = require('./isValidBinaryExpression');
 const { isValidLogicalInner, isValidLogicalInnerReverse } = require('./isValidLogicalInner');
-const { isIdentifier, isRoot, isVariableDeclaration, isAssignmentExpression, unwrapUnaryOperator } = require('../shared/utils');
+const { isIdentifier, isRoot, isVariableDeclaration, isAssignmentExpression, unwrapUnaryOperator } = require('./utils');
 
 /** Traverse through assignment tree to detect the most-left value */
 const getAssignment = ({ init }) => {

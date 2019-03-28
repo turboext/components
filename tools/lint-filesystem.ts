@@ -25,7 +25,7 @@ const getErrs = () => readdir(componentsRoot)
             }
 
             if (!dir.startsWith('Ext')) {
-                errs.push(`expected ${green(dir)} component to be start with Ext, suggestion: ${green(`Ext${dir}`)}`);
+                errs.push(`expected ${green(dir)} component to start with Ext, suggestion: ${green(`Ext${dir}`)}`);
                 return Promise.resolve();
             }
 

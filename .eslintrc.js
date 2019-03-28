@@ -207,6 +207,19 @@ module.exports = {
             2,
             'always'
         ],
+        'lines-around-comment': [
+            2,
+            {
+                'allowBlockStart': true,
+                'allowBlockEnd': true,
+                'allowObjectStart': true,
+                'allowObjectEnd': true,
+                'allowArrayStart': true,
+                'allowArrayEnd': true,
+                'allowClassStart': true,
+                'allowClassEnd': true
+            }
+        ],
         'one-var-declaration-per-line': [
             2,
             'initializations'
@@ -296,16 +309,18 @@ module.exports = {
         'no-extra-bind': 2,
         'no-return-assign': 0,
         'yoda': 2,
-        'dot-location': [2, 'property'],
-
-        'local-rules/no-async': 2,
-        'local-rules/no-undefined-window': 2
+        'dot-location': [
+            2,
+            'property'
+        ],
     },
     overrides: [
         {
             files: ['components/**/*.tsx'],
             rules: {
-                'local-rules/correct-file-export': 2
+                'local-rules/correct-file-export': 2,
+                'local-rules/no-async': 2,
+                'local-rules/no-undefined-window': 2
             }
         },
         {
@@ -323,7 +338,10 @@ module.exports = {
                 '@typescript-eslint/explicit-function-return-type': 2,
                 '@typescript-eslint/explicit-member-accessibility': 2,
                 '@typescript-eslint/indent': 2,
-                '@typescript-eslint/interface-name-prefix': [2, 'always'],
+                '@typescript-eslint/interface-name-prefix': [
+                    2,
+                    'always'
+                ],
                 '@typescript-eslint/member-delimiter-style': 2,
                 '@typescript-eslint/no-array-constructor': 2,
                 '@typescript-eslint/no-inferrable-types': 2,

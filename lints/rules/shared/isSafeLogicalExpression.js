@@ -2,7 +2,7 @@
 const { isValidBinary, isValidBinaryReverse } = require('./isValidBinaryExpression');
 const { isValidLogicalInner, isValidLogicalInnerReverse } = require('./isValidLogicalInner');
 const { isValidIdentifier, isValidIdentifierReverse } = require('./isValidIdentifier');
-const { isConjunction, isDisjunction, isLogicalExpression, getLogicalExpressionParent } = require('../shared/utils');
+const { isConjunction, isDisjunction, isLogicalExpression, getLogicalExpressionParent } = require('./utils');
 
 /** Checks the node is the right part of logical statement */
 const isRight = node => node.parent.right === node;
