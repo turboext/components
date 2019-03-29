@@ -1,85 +1,75 @@
 import * as React from 'react';
-import { getYesterday, formatDate } from './utils/date';
-import { selectRates, diffRates, IRate } from './utils/rates';
+import { formatDate } from './utils/date';
 
 import './ExtExchangeRates.scss';
 
 interface IProps {
-    'data-rates': [];
+    'data-before': Record<string, number>;
+    'data-today': Record<string, number>;
+    'data-date': number;
+    'data-supply': string;
+    direction?: 'left' | 'right';
 }
 
-export class ExtExchangeRates extends React.PureComponent<IProps> {
+interface IRate {
+    name: string;
+    value: number;
+    sign: number;
+}
+
+interface IState {
+    rates: IRate[];
+}
+
+export class ExtExchangeRates extends React.PureComponent<IProps, IState> {
     public state = {
-        status: 'loading',
-        rates: {}
-    }
+        rates: []
+    };
 
-    public componentDidMount(): void {
-        const yesterday: Date = getYesterday();
+    public static getDerivedStateFromProps(props: IProps): IState {
+        const keys = Object.keys(props['data-today']);
 
-        Promise.all([
-            fetch('https://api.exchangeratesapi.io/latest?base=RUB'),
-            fetch(`https://api.exchangeratesapi.io/${formatDate(yesterday)}?base=RUB`)
-        ]).then(([
-            resToday,
-            resYesterday
-        ]) => Promise.all([
-            resToday.json(),
-            resYesterday.json()
-        ]))
-            .then(([
-                resToday,
-                resYesterday
-            ]) => {
-                const ratesToday = selectRates(this.props['data-rates'], resToday);
-                const ratesYesterday = selectRates(this.props['data-rates'], resYesterday);
+        const rates: IRate[] = keys.map((key: string) => ({
+            name: key,
+            value: 1 / props['data-today'][key],
+            sign: Math.sign(props['data-today'][key] - props['data-before'][key])
+        }));
 
-                this.setState({
-                    status: 'loaded',
-                    rates: diffRates(ratesToday, ratesYesterday)
-                });
-            });
+        return { rates };
     }
 
     public render(): JSX.Element {
-        const isLoading = this.state.status === 'loading';
-
         return (
             <div className="ext-exchange-rates">
-                {isLoading ? <span className="ext-exchange-rates__loading">Загрузка...</span> : null}
-                {isLoading ? null : this.renderRates()}
-                {isLoading ? null :
-                    <div className="ext-exchange-rates__description">
-                        Курсы валют на {formatDate(new Date())} <br />
-                        по данным exchangeratesapi.io
-                    </div>
-                }
+                { this.renderRates() }
+                <div className="ext-exchange-rates__description">
+                    Курсы валют на {formatDate(new Date())} <br />
+                    по данным {this.props['data-supply']}
+                </div>
             </div>
         );
     }
 
     private renderRates(): JSX.Element {
-        const { rates } = this.state;
-
-        const currencyRender = Object.keys(rates).map(currency => this.renderCurrency(currency, rates[currency]));
+        const { direction = 'left' } = this.props;
 
         return (
             <div className="ext-exchange-rates__wrapper">
                 {/* Workaround для marquee, так как он не поддержан в typings для react */}
-                {React.createElement('marquee', { scrolldelay: 1 }, currencyRender)}
+                {React.createElement('marquee', { scrolldelay: 1, direction }, this.state.rates.map(this.renderCurrency))}
             </div>
         );
     }
 
-    private renderCurrency(currency: string, rate: IRate): JSX.Element {
+    private renderCurrency(rate: IRate): JSX.Element {
         const color = rate.sign >= 0 ? 'green' : 'red';
 
         return (
             <span
                 className="ext-exchange-rates__rate"
-                key={currency}
+                key={rate.name}
             >
-                {currency}&nbsp;
+                {rate.name}&nbsp;
                 <span
                     className={`ext-exchange-rates__value_${color}`}
                 >

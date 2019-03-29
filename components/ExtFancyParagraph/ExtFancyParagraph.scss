@@ -2,47 +2,27 @@
   position: relative;
   display: flex;
   align-items: center;
-  padding: 20px 20px 20px 120px;
-  width: 100%;
+  flex-flow: column;
+  padding: 30px 14px;
+  width: calc(100% + 30px);
+  left: -15px;
+  right: -15px;
 
   margin-top: 20px;
 
-  background: black;
-  border: 2px solid black;
+  color: black;
+  background: rgb(255, 187, 109);
 
   box-sizing: border-box;
 
-  &__button.fancy-button {
-    position: absolute;
-    left: -2px;
-    top: -2px;
-    bottom: -2px;
+  &__label {
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 10px;
+  }
 
-    margin: 0;
-
-    z-index: 1;
-
-    width: 100px;
-
-    &:after {
-      content: '';
-      position: absolute;
-
-      left: 0;
-      right: 0;
-      top: 0;
-      bottom: 0;
-
-      background: black;
-      opacity: 0;
-    }
-
-    &:active {
-      transform: none;
-
-      &:after {
-        opacity: 0.1;
-      }
-    }
+  &__text {
+    margin-top: 20px;
   }
 }

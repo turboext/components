@@ -3,49 +3,53 @@ import './ExtFancyParagraph.scss';
 
 interface IFancyParagraphProps {
     children: React.ReactChildren;
+    'data-title': string;
 }
 
 interface IFancyParagraphState {
-    backgroundColor: string;
-    color: string;
+    isLeft: boolean;
 }
 
-export class ExtFancyParagraph extends React.PureComponent<IFancyParagraphProps, IFancyParagraphState> {
-    public constructor(props: IFancyParagraphProps) {
-        super(props);
-
-        this.state = {
-            backgroundColor: 'black',
-            color: 'white'
-        };
-    }
-
-    public onButtonClick = () => {
-        const isBlack = this.state.backgroundColor === 'black';
-        this.setState({
-            backgroundColor: isBlack ? 'white' : 'black',
-            color: isBlack ? 'black' : 'white'
-        });
+export class ExtFancyParagraph extends React.Component<IFancyParagraphProps, IFancyParagraphState> {
+    public state = {
+        isLeft: true
     }
 
     public render(): React.ReactNode {
         const { children } = this.props;
-        const { backgroundColor, color } = this.state;
 
-        const button = React.cloneElement(children[0], {
-            className: 'fancy-paragraph__button',
-            onClick: this.onButtonClick
+        // Первым элементом ожидаем exchangeRates
+        const marquee = React.cloneElement(children[0], {
+            direction: this.state.isLeft ? 'left' : 'right'
         });
 
+        // Все что будет дальше считаем просто текстом
         const text = React.Children.toArray(children).slice(1);
 
         return (
-            <div className="fancy-paragraph" style={{ backgroundColor, color }}>
-                {button}
-                <p className="fancy-paragraph__text-container">
+            <div className="fancy-paragraph" onClick={this.handleClick}>
+                <div className="fancy-paragraph__label"> {this.props['data-title']} </div>
+                {
+
+                    /*
+                     * Несмотря на то, что мы пробрасываем направление,
+                     * сам элемент изменит его только спустя какое-то время
+                     */
+                }
+                <div className="fancy-paragraph__text-container">
+                    {marquee}
+                </div>
+                <div className="fancy-paragraph__text">
                     {text}
-                </p>
+                </div>
             </div>
         );
+    }
+
+    public handleClick = () => {
+        const { isLeft } = this.state;
+        this.setState({
+            isLeft: !isLeft
+        });
     }
 }

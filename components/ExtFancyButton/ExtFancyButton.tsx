@@ -6,17 +6,16 @@ interface IFancyButtonProps {
     className?: string;
     onClick?: () => void;
     name: string;
+    children?: React.ReactNode[];
 }
 
-const title = typeof window !== 'undefined' && true && window.document.title && window;
-
-export function ExtFancyButton({ color, className, onClick }: IFancyButtonProps): React.ReactNode {
+export function ExtFancyButton({ color, className, onClick, children }: IFancyButtonProps): React.ReactNode {
     return (
         <button
             className={`fancy-button ${className}`} onClick={onClick} style={{ backgroundColor: color }}
             type="button"
         >
-            click me {title}
+            {children}
         </button>
     );
 }

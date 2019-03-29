@@ -1,1 +1,24 @@
-<ExtExchangeRates data-rates='["USD","EUR","CHF","GBP","JPY","AUD","CZK"]'/>
+<ExtExchangeRates
+  data-today='{
+    "USD": 0.0153374778,
+    "EUR": 0.0136722035,
+    "CHF": 0.0152923596,
+    "GBP": 0.0116972537,
+    "NOK": 0.1297414202,
+    "JPY": 1.6975407808,
+    "AUD": 0.0216704425,
+    "CZK": 0.3525514382
+  }'
+  data-before='{
+    "USD": 0.0152099483,
+    "EUR": 0.0133584651,
+    "CHF": 0.0151672012,
+    "NOK": 0.1331399172,
+    "GBP": 0.0114218884,
+    "JPY": 1.6818307509,
+    "AUD": 0.0212519821,
+    "CZK": 0.3427915719
+  }'
+  data-date='1553789047588'
+  data-supply='exchangeratesapi.io'
+/>

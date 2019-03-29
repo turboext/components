@@ -1,7 +1,3 @@
-<ExtFancyButton data-data="some value">
-    <div class="abc">
-         Привет мир!!!
-    </div>
-    hi
-    <button> </button>
+<ExtFancyButton>
+    i am an external component
 </ExtFancyButton>
