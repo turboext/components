@@ -61,27 +61,36 @@ export class ExtYandexBusinessCard extends React.PureComponent<IProps, IState> {
                     <span
                         className="ext-yandex-business-card__city"
                         itemProp="locality"
-                    >{this.state.city}</span>,
+                    >
+                        {this.state.city}
+                    </span>,
                     <span
                         className="ext-yandex-business-card__zip"
                         itemProp="postal-code"
-                    >{this.state.postalCode}</span>,
+                    >
+                        {this.state.postalCode}
+                    </span>,
                     <span
                         className="ext-yandex-business-card__country"
                         itemProp="country-name"
-                    >{this.state.countryName}</span>,
+                    >
+                        {this.state.countryName}
+                    </span>,
                     <span
                         className="ext-yandex-business-card__street-address"
                         itemProp="street-address"
-                    >{this.state.address}</span>
+                    >
+                        {this.state.address}
+                    </span>
                 </div>
                 <div
                     className="ext-yandex-business-card__contact"
                 >
-                    <div
-                        className="ext-yandex-business-card__tel ext-yandex-business-card__tel_type_work">тел.: <a
-                        className="ext-yandex-business-card__phone-link"
-                    >{this.state.phone}</a>,
+                    <div className="ext-yandex-business-card__tel ext-yandex-business-card__tel_type_work">
+                        тел.:
+                        <a className="ext-yandex-business-card__phone-link">
+                            {this.state.phone}
+                        </a>,
                         доб. ${this.state.phoneExt}
                     </div>
                 </div>
