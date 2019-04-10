@@ -1,4 +1,4 @@
-<ExtYandexBusinessCard
+<ExtBusinessCard
   data-name='Роман Рождественский'
   data-position='Руководитель службы интерфейсов мультимедийных поисков'
   data-city="Москва"
@@ -7,4 +7,5 @@
   data-postal-code="119021"
   data-phone="+7 (495) 739-70-00"
   data-phone-ext="6598"
+  data-email="sbmaxx@yandex-team.ru"
 />
