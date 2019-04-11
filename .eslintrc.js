@@ -37,6 +37,7 @@ module.exports = {
         'react/prefer-es6-class': 2,
         'react/jsx-one-expression-per-line': 0,
         'react/display-name': 0,
+        'react/jsx-max-depth': [2, { 'max': 10 }],
         'react/jsx-filename-extension': [
             1,
             { extensions: ['.tsx'] }
@@ -198,6 +199,7 @@ module.exports = {
                 ignoreComments: true
             }
         ],
+        'max-lines-per-function': ['error', { 'max': 100 }],
         'no-lonely-if': 2,
         'no-mixed-spaces-and-tabs': 2,
         'no-multiple-empty-lines': 2,
