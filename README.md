@@ -45,10 +45,9 @@ npm start
 В качестве альтернативы можно настроить бразуер:
 
 
-Например, `google chrome` или `yandex browser`
-позволяют использовать самоподписанный сертификат для `localhost`.
-Для этого необходимо открыть в новой вкладке `browser://flags`
-(`chrome://flags` для google chrome) и через поиск найти #allow-insecure-localhost и включить его.
+Например, `yandex browser`
+позволяет использовать самоподписанный сертификат для `localhost`.
+Для этого необходимо открыть в новой вкладке `browser://flags` и через поиск найти #allow-insecure-localhost и включить его.
 
 Похожую настройку имеет и mozilla firefox: вкладка `about:config` и настройка `network.websocket.allowInsecureFromHTTPS` (**обратите внимание, что он
 выключает проверку не только localhost! не забудьте выключить после окончания разработки**).
