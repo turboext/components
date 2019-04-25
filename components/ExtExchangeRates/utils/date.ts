@@ -11,7 +11,7 @@ export function getYesterday(): Date {
 
 export function formatDate(date: Date): string {
     const year = date.getFullYear();
-    const month = toDoubleDigits(date.getMonth());
+    const month = toDoubleDigits(date.getMonth() + 1);
     const day = toDoubleDigits(date.getDate());
 
     return `${year}-${month}-${day}`;
