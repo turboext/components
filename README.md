@@ -20,16 +20,14 @@
 
 ### Клонирование репозитория
 
-Для начала необходимо сделать [форк](https://help.github.com/en/articles/fork-a-repo) проекта. Затем можно выполнить команду
+Для начала необходимо выполнить команды:
 
 ```sh
-git clone git@github.com:<your-username>/components.git components
+git clone git@github.com:turboext/components.git components
 cd components
 npm i
 npm start
 ```
-
-Где `your-username` — ваш ник на github.
 
 Проверяем работу репозитория: переходим на [`https://localhost:8443/render/ext-exchange-rates/default`](https://localhost:8443/render/ext-exchange-rates/default).
 
@@ -125,6 +123,7 @@ export default function ExtExchangeRates () {}
 
 ## Процесс разработки
 
+1. Для разработки вы создаете [форк](https://help.github.com/en/articles/fork-a-repo) проекта.
 1. Вы создаете `pull-request` в репозиторий
 2. Проходят все линтеры. Если линтеры не проходят, пулреквест не рассматривается. Если есть проблемы, связанные с линтингом файлов (например, конфликтующие линтеры или ошибки во время линтинга кода), необходимо создать issue.
 3. После того, как прошли все линтеры, пулреквест получает два апрува от команды.
@@ -148,11 +147,6 @@ export default function ExtExchangeRates () {}
 - Для контроля качества кода мы используем [eslint](https://eslint.org/) с рядом плагинов.
 
 Часть из них запускается перед коммитом, часть — перед пушем в удаленный репозиторий.
-
-Все плагины `eslint` без приставки `local` являются глобальными и информацию по ним можно найти на [yandex.ru](https://yandex.ru) или [eslint.org](https://eslint.org/).
-Линтеры с приставкой `local` находятся локально (в директории [`lints/rules`](lints/rules)), и в случае вопросов можно
-обращаться к readme. Например, если упало правило `local/correct-file-export`, можно обратится к
-[`lints/rules/correct-file-export/Readme.md`](lints/rules/correct-file-export/Readme.md). Аналогично для других линтеров.
 
 Если линтер падает на прекомите, можно сначала попробовать поправить изменения автоматически с помощью команды:
 `npm run lint:fix`.
