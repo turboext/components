@@ -4,6 +4,7 @@ const { cpus } = require('os');
 const webpack = require('webpack');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const afterEmitPlugin = require('./tools/AfterEmitPlugin');
 
 module.exports = {
     entry: resolve(__dirname, '.tmp/registry.tsx'),
@@ -105,7 +106,8 @@ module.exports = {
         }),
         new MiniCssExtractPlugin({
             filename: 'index.css'
-        })
+        }),
+        afterEmitPlugin()
     ],
 
     node: {
