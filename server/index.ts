@@ -1,5 +1,6 @@
 import { createServer as createHttpsServer } from 'https';
 import { createServer as createHttpServer } from 'http';
+import { resolve } from 'path';
 import * as express from 'express';
 import { readFileSync } from 'fs-extra';
 
@@ -12,8 +13,8 @@ app.use('/dist', express.static('dist'));
 
 const httpServer = createHttpServer(app);
 const httpsServer = createHttpsServer({
-    key: readFileSync('keys/server.key', 'utf8'),
-    cert: readFileSync('keys/server.crt', 'utf8'),
+    key: readFileSync(resolve(__dirname, '..', 'keys', 'server.key'), 'utf8'),
+    cert: readFileSync(resolve(__dirname, '..', 'keys', 'server.crt'), 'utf8'),
     requestCert: false,
     rejectUnauthorized: false
 }, app);
