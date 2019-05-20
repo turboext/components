@@ -5,6 +5,7 @@ import { getHtml } from '../getHtml';
 
 import preparePage from '../utils/preparePage';
 import handleErr from '../utils/handleError';
+import removeCSP from '../utils/removeCSP';
 
 import pascalCase = require('pascal-case');
 
@@ -29,7 +30,7 @@ router.get('/render/:componentName/:componentExample', async(req: Request, res: 
 
     try {
         xml = await readFile(examplePath, 'utf8');
-        data = preparePage(await getHtml(xml));
+        data = removeCSP(preparePage(await getHtml(xml)));
     } catch (e) {
         next(handleErr(e, examplePath));
         return;

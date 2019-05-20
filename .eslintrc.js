@@ -156,6 +156,7 @@ module.exports = {
         'no-invalid-this': 0,
         'max-statements': 0,
         'id-length': 0,
+        'require-unicode-regexp': 0,
 
         // Codestyle
         'array-bracket-spacing': [
