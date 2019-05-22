@@ -82,11 +82,15 @@ components/
 - В иных случаях в качестве значения будет передана строка.
 
 ### Ограничения
+#### Disclamer
+Правила разработки находятся в развитии и могут быть изменены в будущем.
 
 Если вы хотите делать ajax запросы, то их возможно совершать только к API, находящемуся на одном домене с вашим сайтом.
 Например: для сайта [rozhdestvenskiy.ru](https://rozhdestvenskiy.ru) можно совершать ajax запросы только к домену rozhdestvenskiy.ru
 Запросы, например, к [aws.com](https://aws.com) будут заблокированы политиками [CSP](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP)
 При этом надо использовать [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) и нельзя передавать Cookie yandex.ru домена.
+
+Запрещается работать с `window.location` и `window.open`.
 
 ### Написание кода
 
