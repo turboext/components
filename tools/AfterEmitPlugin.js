@@ -8,9 +8,7 @@ module.exports = () => {
                     // eslint-disable-next-line no-console
                     console.log('Dev server запущен:');
                     // eslint-disable-next-line no-console
-                    console.log(`${chalk.magenta('http://localhost:8081')}`);
-                    // eslint-disable-next-line no-console
-                    console.log(`${chalk.magenta('https://localhost:8443')}`);
+                    console.log(`${chalk.underline('http://localhost:8081')}`);
                 }, 0);
             });
         }
