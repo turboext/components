@@ -28,7 +28,7 @@ npm i
 npm start
 ```
 
-Проверяем работу репозитория: переходим на [`http://localhost:8081/render/ext-exchange-rates/default`](https://localhost:8443/render/ext-exchange-rates/default).
+Проверяем работу репозитория: переходим на [`http://localhost:8081/render/ext-exchange-rates/default`](http://localhost:8081/render/ext-exchange-rates/default).
 
 ## Создание своего компонента
 После того, как мы настроили среду, можно приступить к написанию своего компонента.
