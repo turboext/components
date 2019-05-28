@@ -1,5 +1,5 @@
 {
-  "name": "custom-components",
+  "name": "@turboext/components",
   "version": "1.0.0",
   "description": "Dev environment for custom user components in turbo",
   "main": "server/index.js",
