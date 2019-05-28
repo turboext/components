@@ -17,13 +17,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/turboext/custom-components.git"
+    "url": "git+https://github.com/turboext/components.git"
   },
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/turboext/custom-components/issues"
+    "url": "https://github.com/turboext/components/issues"
   },
-  "homepage": "https://github.com/turboext/custom-components#readme",
+  "homepage": "https://github.com/turboext/components#readme",
   "husky": {
     "hooks": {
       "pre-commit": "tsc --noEmit && lint-staged"
