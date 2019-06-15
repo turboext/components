@@ -1,6 +1,6 @@
 {
-  "name": "@turboext/components",
-  "version": "1.0.0",
+  "name": "components",
+  "version": "1.0.1",
   "description": "Dev environment for custom user components in turbo",
   "main": "server/index.js",
   "scripts": {
@@ -9,12 +9,17 @@
     "watch:server": "ts-node ./server/index.ts",
     "build:registry": "ts-node tools/build-registry.ts",
     "watch:registry": "ts-node tools/watch-registry.ts",
+    "build": "tsc -d -p .",
     "lint": "concurrently \"npm run lint:style\" \"npm run lint:script\" \"npm run lint:filesystem\"",
     "lint:fix": "concurrently \"npm run lint:style -- --fix\"  \"npm run lint:script -- --fix\"",
     "lint:style": "stylelint components/**/*.scss",
     "lint:script": "eslint \"{components,server,lints}/**/*.{ts,tsx,js}\"",
     "lint:filesystem": "ts-node tools/lint-filesystem.ts"
   },
+  "files": [
+    "/components/**/*.js*",
+    "/components/**/*.d.ts"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/turboext/components.git"
