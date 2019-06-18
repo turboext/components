@@ -1,8 +1,7 @@
 {
-  "name": "components",
-  "version": "1.0.1",
+  "name": "@turboext/components",
+  "version": "1.0.2",
   "description": "Dev environment for custom user components in turbo",
-  "main": "server/index.js",
   "scripts": {
     "start": "npm run build:registry && concurrently \"npm run watch:server\" \"webpack\" \"npm run watch:registry\"",
     "start:dev": "nodemon -e ts -w server -x npm run watch:server",
@@ -18,7 +17,8 @@
   },
   "files": [
     "/components/**/*.js*",
-    "/components/**/*.d.ts"
+    "/components/**/*.d.ts",
+    "/components/**/*.scss"
   ],
   "repository": {
     "type": "git",
