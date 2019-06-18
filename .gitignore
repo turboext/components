@@ -4,3 +4,14 @@ dist
 .tmp
 .vscodegi
 .history
+components/**/*.js
+components/**/*.map
+components/**/*.d.ts
+
+tools/**/*.js
+tools/**/*.map
+tools/**/*.d.ts
+
+server/**/*.js
+server/**/*.map
+server/**/*.d.ts
