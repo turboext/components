@@ -1,0 +1,89 @@
+$product-primary-color: #000;
+$product-secondary-color: #808080;
+$product-button-color: #cecece;
+$product-border-color: $product-button-color;
+
+.product-block {
+  &__item {
+    padding:0 15px 15px 15px;
+    border-bottom: 1px $product-border-color solid;
+    &:last-child {
+      margin-bottom:0;
+    }
+  }
+  &__title {
+    font: 600 1vw/1.2 'Helvetica', serif;
+    margin:0 0 15px 0;
+    color: $product-primary-color;
+
+  }
+  &__image {
+    margin:0 -15px 15px -15px;
+    .image-item {
+      max-width:100%;
+    }
+  }
+  &__price {
+    font: 600 1.5vw/1.2 'Helvetica', serif;
+    margin:0 0 15px 0;
+    color: $product-primary-color;
+    &::after {
+      font-size: 1.3vw;
+      padding-left:3px;
+    }
+    &--rub::after {
+      content: '\20BD';
+    }
+    &--eur::before {
+      content: '\20AC';
+    }
+    &--usd::before {
+      content: '\0024';
+    }
+  }
+  &__description {
+    font: 300 .9vw/1.2 'Helvetica', serif;
+    margin:0 0 15px 0;
+    color: $product-secondary-color;
+  }
+
+  &__button {
+    font: 300 1vw/1 'Helvetica', serif;
+    text-align:center;
+    background-color: $product-button-color;
+    color: $product-primary-color;
+    border:0;
+    display:inline-block;
+    padding:5px 15px;
+    cursor:pointer;
+    text-decoration: none;
+    outline: none;
+    &--fancy_button {
+      padding: 15px;
+      border: 0;
+      border-radius: 10px;
+      color: #fff;
+      background-color: #007bff;
+
+      text-align: center;
+
+      display: block;
+
+      font-size: 15px;
+      user-select: none;
+
+      transition: 0.2s transform;
+
+      margin-top: 20px;
+
+      &:active, &:focus {
+        outline: none;
+        border: 0;
+      }
+
+      &:active {
+        transform: scale(0.96);
+      }
+    }
+  }
+}

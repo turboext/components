@@ -1,0 +1,12 @@
+<ExtProductBlock
+        data-name='Винтажное ожерелье из изумрудов'
+        data-price='9450'
+        data-currency='eur'
+        data-description='Станет отличным украшением на вечеринке'
+        data-image-url='https://i.imgur.com/e6EPPwt.jpg'
+        data-image-alt='Женщина со светлыми волосами'
+        data-product-url='https://yandex.ru'
+        data-button-text='Заказать'
+        data-button-color='#e91e63'
+        data-button-text-color='#fff'
+></ExtProductBlock>
