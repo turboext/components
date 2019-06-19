@@ -25,7 +25,11 @@ export function ExtProductBlock(props: IProductBlockProps): React.ReactNode {
     return (
         <div className="product-block__item">
             <div className="product-block__image">
-                <a href="#">
+                <a
+                    href={props['data-product-url']}
+                    rel="noopener noreferrer"
+                    target="_blank"
+                >
                     <img
                         alt={props['data-image-alt']}
                         className="image-item"
@@ -34,7 +38,15 @@ export function ExtProductBlock(props: IProductBlockProps): React.ReactNode {
                     />
                 </a>
             </div>
-            <div className="product-block__title"><a href={props['data-product-url']}>{props['data-name']}</a></div>
+            <div className="product-block__title">
+                <a
+                    href={props['data-product-url']}
+                    rel="noopener noreferrer"
+                    target="_blank"
+                >
+                    {props['data-name']}
+                </a>
+            </div>
             <div className={currencyClass}>{props['data-price']}</div>
             <div className="product-block__description"><p>{props['data-description']}</p></div>
             <a
