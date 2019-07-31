@@ -39,11 +39,13 @@ export class ExtExchangeRates extends React.PureComponent<IProps, IState> {
     }
 
     public render(): JSX.Element {
+        const date = new Date(this.props['data-date']);
+
         return (
             <div className="ext-exchange-rates">
                 { this.renderRates() }
                 <div className="ext-exchange-rates__description">
-                    Курсы валют на {formatDate(new Date())} <br />
+                    Курсы валют на {formatDate(date)} <br />
                     по данным {this.props['data-supply']}
                 </div>
             </div>
