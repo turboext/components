@@ -9,7 +9,7 @@ export class ExtStrossleWidget extends React.PureComponent<IWidgetStrossleProps>
     public componentDidMount(): void {
         const script = document.createElement('script');
         script.async = true;
-        script.src = `${this.props['data-url']}strossle-turbo.js`;
+        script.src = '//widgets.sprinklecontent.com/v2/sprinkle.js';
         if (this.div) {
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             const node = this.div.current!;
