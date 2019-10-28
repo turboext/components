@@ -11,4 +11,5 @@ const registry = readdirSync(componentsRoot)
     .map((file: string) => wrapInRegistry(file))
     .join('\n');
 
-outputFileSync(registryPath, registry);
+// Инициализируем React-компоненты после всех require'ов
+outputFileSync(registryPath, `${registry}\nwindow.Ya.initReact();`);
