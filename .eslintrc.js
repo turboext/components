@@ -6,8 +6,8 @@ module.exports = {
         }
     },
     extends: [
-        'plugin:react/all',
-        'eslint:all'
+        'plugin:react/recommended',
+        'eslint:recommended'
     ],
     parserOptions: {
         jsx: true,

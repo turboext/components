@@ -6,8 +6,11 @@ export interface IExtEmbed {
     src: string;
 }
 
-export function ExtEmbed({ src }: IExtEmbed): JSX.Element {
+export function ExtEmbed({ src, type }: IExtEmbed): JSX.Element {
     return (
-        <ExtIframe frameSrc={src} />
+        <ExtIframe
+            className={`embed_type_${type}`}
+            frameSrc={src}
+        />
     );
 }
