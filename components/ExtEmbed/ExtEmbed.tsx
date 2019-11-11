@@ -7,6 +7,8 @@ export interface IExtEmbed {
 }
 
 export function ExtEmbed({ src, type }: IExtEmbed): JSX.Element {
+
+
     return (
         <ExtIframe
             className={`embed_type_${type}`}
