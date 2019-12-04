@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as Inline from './Strossle.inline.js';
+import Inline from './Strossle.inline.js';
 
 export function Strossle(props: Record<string, string>): JSX.Element {
     return (

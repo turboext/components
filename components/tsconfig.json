@@ -25,8 +25,6 @@
   "include": [
     "components/**/**.ts",
     "components/**/**.tsx",
-    "server/**/**.ts",
-    "tools/**/**.ts",
-    "types/**/*.d.ts"
+    "../types/**/*.d.ts"
   ]
 }
