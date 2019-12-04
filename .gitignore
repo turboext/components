@@ -5,6 +5,7 @@ dist
 .vscodegi
 .history
 components/**/*.js
+!components/**/*.js
 components/**/*.map
 components/**/*.d.ts
 
