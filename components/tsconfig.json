@@ -3,10 +3,10 @@
     "strict": true,
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
-    "module": "ES6",
+    "module": "CommonJS",
     "target": "esNext",
     "lib": ["es7", "dom"],
-    "sourceMap": true,
+    "sourceMap": false,
     "jsx": "react",
     "moduleResolution": "node",
     "skipLibCheck": true,
@@ -23,8 +23,8 @@
     "outDir": ""
   },
   "include": [
-    "components/**/**.ts",
-    "components/**/**.tsx",
+    "**/**.ts",
+    "**/**.tsx",
     "../types/**/*.d.ts"
   ]
 }
