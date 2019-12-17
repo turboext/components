@@ -2,7 +2,7 @@ import cheerio = require('cheerio');
 
 const customComponentStylesheet = '<link rel="stylesheet" href="/dist/index.css">';
 // Выставлен defer, чтобы бандл с локальными компонентами загрузился после вшитого в html
-const customComponentScript = '<script src="/dist/main.js" defer></script>';
+const customComponentScript = '<script src="/dist/index.js" defer></script>';
 
 const preparePage = (rawHtml: string): string => {
     /*
