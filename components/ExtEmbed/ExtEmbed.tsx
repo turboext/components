@@ -15,6 +15,16 @@ interface IProps {
     iframeClass?: string;
 
     /**
+     * Ширина для тега iframe
+     */
+    iframeWidth?: string;
+
+    /**
+     * Высота для тега iframe
+     */
+    iframeHeight?: string;
+
+    /**
      * Признак, загрузился ли встраиваемый виджет
      */
     isLoaded?: boolean;
@@ -42,16 +52,26 @@ export class ExtEmbed extends React.PureComponent<IProps, IState> {
         // Если isLoaded не передается в props'ах, убираем loader, когда iframe стриггерит событие onload
         const isLoaded = typeof isEmbedLoaded === 'undefined' ? this.state.isIframeLoaded : isEmbedLoaded;
 
+        const props: React.HTMLProps<HTMLIFrameElement> = {
+            allowFullScreen: false,
+            className: `ext-embed__iframe ${iframeClass || ''}`,
+            onLoad: this.handleIframeLoaded,
+            sandbox,
+            scrolling: 'no',
+            src
+        };
+
+        if (this.props.iframeHeight) {
+            props.height = this.props.iframeHeight;
+        }
+
+        if (this.props.iframeWidth) {
+            props.width = this.props.iframeWidth;
+        }
+
         return (
             <div className="ext-embed">
-                <iframe
-                    allowFullScreen={false}
-                    className={`ext-embed__iframe ${iframeClass || ''}`}
-                    onLoad={this.handleIframeLoaded}
-                    sandbox={sandbox}
-                    scrolling="no"
-                    src={src}
-                />
+                <iframe {...props} />
                 {!isLoaded &&
                     <div className="ext-embed__loader">
                         <div className="ext-embed__loader-inner">
