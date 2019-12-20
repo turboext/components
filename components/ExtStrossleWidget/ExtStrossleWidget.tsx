@@ -1,41 +1,20 @@
 import * as React from 'react';
-<<<<<<< HEAD
-
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface IWidgetStrossleProps {}
-
-export class ExtStrossleWidget extends React.PureComponent<IWidgetStrossleProps> {
-    private div = React.createRef<HTMLDivElement>()
-
-    public componentDidMount(): void {
-        const script = document.createElement('script');
-        script.async = true;
-        script.src = '//widgets.sprinklecontent.com/v2/sprinkle.js';
-        if (this.div) {
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            const node = this.div.current!;
-            node.appendChild(script);
-        }
-    }
-
-    public render(): React.ReactNode {
-        return (
-            <div
-                data-spklw-widget={this.props['data-widget']}
-                ref={this.div}
-            />
-        );
-=======
 import { render } from 'react-dom';
 import { ExtEmbed } from '../ExtEmbed/ExtEmbed';
 
 import './ExtStrossleWidget.scss';
 
-interface IWidgetStrossleProps {
+interface IProps {
     ['data-widget']: string;
 }
 
-export class ExtStrossleWidget extends React.PureComponent<IWidgetStrossleProps> {
+interface IState {
+    htmlString: string | null;
+}
+
+export class ExtStrossleWidget extends React.PureComponent<IProps, IState> {
+    public readonly state = { htmlString: null };
+
     private html = (
         <div
             data-spklw-widget={this.props['data-widget']}
@@ -44,20 +23,25 @@ export class ExtStrossleWidget extends React.PureComponent<IWidgetStrossleProps>
         </div>
     );
 
-    public render(): React.ReactNode {
+    public componentDidMount(): void {
         if (typeof window !== 'undefined') {
             const tempDiv = document.createElement('div');
-            render(this.html, tempDiv);
+            render(this.html, tempDiv, () => {
+                this.setState({ htmlString: tempDiv.innerHTML });
+            });
+        }
+    }
 
-            return (
-                <ExtEmbed
-                    html={tempDiv.innerHTML}
-                    iframeClass="ext-embed__ext-strossle-widget"
-                />
-            );
+    public render(): React.ReactNode {
+        if (!this.state.htmlString) {
+            return null;
         }
 
-        return null;
->>>>>>> Поддержано добавление эмбедов на Турбо-страницу
+        return (
+            <ExtEmbed
+                html={this.state.htmlString || ''}
+                iframeClass="ext-embed__ext-strossle-widget"
+            />
+        );
     }
 }
