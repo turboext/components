@@ -4,11 +4,17 @@ import { ExtEmbed } from '../ExtEmbed/ExtEmbed';
 
 import './ExtStrossleWidget.scss';
 
-interface IWidgetStrossleProps {
+interface IProps {
     ['data-widget']: string;
 }
 
-export class ExtStrossleWidget extends React.PureComponent<IWidgetStrossleProps> {
+interface IState {
+    htmlString: string | null;
+}
+
+export class ExtStrossleWidget extends React.PureComponent<IProps, IState> {
+    public readonly state = { htmlString: null };
+
     private html = (
         <div
             data-spklw-widget={this.props['data-widget']}
@@ -17,19 +23,25 @@ export class ExtStrossleWidget extends React.PureComponent<IWidgetStrossleProps>
         </div>
     );
 
-    public render(): React.ReactNode {
+    public componentDidMount(): void {
         if (typeof window !== 'undefined') {
             const tempDiv = document.createElement('div');
-            render(this.html, tempDiv);
+            render(this.html, tempDiv, () => {
+                this.setState({ htmlString: tempDiv.innerHTML });
+            });
+        }
+    }
 
-            return (
-                <ExtEmbed
-                    html={tempDiv.innerHTML}
-                    iframeClass="ext-embed__ext-strossle-widget"
-                />
-            );
+    public render(): React.ReactNode {
+        if (!this.state.htmlString) {
+            return null;
         }
 
-        return null;
+        return (
+            <ExtEmbed
+                html={this.state.htmlString || ''}
+                iframeClass="ext-embed__ext-strossle-widget"
+            />
+        );
     }
 }
