@@ -49,10 +49,6 @@ export class ExtEmbed extends React.PureComponent<IProps, IState> {
         const innerHtml = encodeURIComponent(html);
         const src = `https://yastatic.net/s3/turbo-static/embed-sandbox/default.html#html=${innerHtml}`;
 
-        if (!innerHtml) {
-            return null;
-        }
-
         // Если isLoaded не передается в props'ах, убираем loader, когда iframe стриггерит событие onload
         const isLoaded = typeof isEmbedLoaded === 'undefined' ? this.state.isIframeLoaded : isEmbedLoaded;
 
@@ -66,12 +62,14 @@ export class ExtEmbed extends React.PureComponent<IProps, IState> {
         };
 
         return (
-            <div className="ext-embed">
-                <iframe
-                    height={this.props.iframeHeight}
-                    width={this.props.iframeWidth}
-                    {...props}
-                />
+            <div className="ext-embed" style={{ height: isLoaded ? '' : `${this.props.iframeHeight}px` }}>
+                {innerHtml &&
+                    <iframe
+                        height={this.props.iframeHeight}
+                        width={this.props.iframeWidth}
+                        {...props}
+                    />
+                }
                 {!isLoaded &&
                     <div className="ext-embed__loader">
                         <div className="ext-embed__loader-inner">
@@ -82,7 +80,8 @@ export class ExtEmbed extends React.PureComponent<IProps, IState> {
                                 <div className="ext-embed__loader-dot" />
                             </div>
                         </div>
-                    </div>}
+                    </div>
+                }
             </div>
         );
     }
