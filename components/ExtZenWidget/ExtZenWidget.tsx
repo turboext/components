@@ -11,7 +11,7 @@ interface IState {
     height: number;
 }
 
-const DEFAULT_HEIGHT = 200;
+const DEFAULT_HEIGHT = 320;
 const GLOBAL_CALLBACKS_PROPERTY = 'yandexZenAsyncCallbacks';
 
 enum LoadingState {
@@ -100,15 +100,16 @@ export class ExtZenWidget extends React.PureComponent<ComponentProps, IState> {
     }
 
     public render(): React.ReactNode {
-        return (
-            this.state.loadingState !== LoadingState.failed &&
+        return this.state.loadingState === LoadingState.failed ?
+            null :
+            (
                 <ExtEmbed
                     html={this.state.htmlString || ''}
                     iframeClass="ext-embed__ext-zen-widget"
                     iframeHeight={this.state.height.toString()}
                     isLoaded={this.state.loadingState === LoadingState.succeed}
                 />
-        );
+            );
     }
 
     private composeHtmlString(): void {
