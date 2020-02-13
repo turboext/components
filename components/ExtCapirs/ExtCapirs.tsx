@@ -94,13 +94,15 @@ export class ExtCapirs extends React.PureComponent<IExtCapirsProps, IState> {
 
             const html = (
                 <>
-                    <div className="capirs-container" />
+                    <div className="capirs-container" style={{ zIndex: 2147483647 }} />
+                    <link as="script" href="//ssp.rambler.ru/capirs_async.js" rel="preload" />
                     <script
                         /* eslint-disable-next-line */
                         dangerouslySetInnerHTML={{ __html:
                         `(${inlineScript.toString()})` +
                         `(window,document,'${GLOBAL_CALLBACKS_PROPERTY}',${JSON.stringify(widgetParams)})` }}
                     />
+                    <script src="//ssp.rambler.ru/capirs_async.js" />
                 </>
             );
 

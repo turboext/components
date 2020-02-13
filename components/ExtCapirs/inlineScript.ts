@@ -42,7 +42,7 @@ export function inlineScript(
     }
 
     /* eslint-disable-next-line */
-    function getWidth(banner: IBanner): number | undefined {
+    function getWidth(banner: IBanner): number | void {
         /**
          * Если с сервера пришёл "резиновый" баннер, то задаём ширину 100% через
          * класс "ext-embed__ext-capirs_fill".
@@ -89,13 +89,11 @@ export function inlineScript(
         },
         block: {
             draw: (feed: IFeed) => {
-                const [banner] = feed.banners.graph;
-
                 window.parent.postMessage(
                     {
                         message: 'loading-succeed',
-                        width: getWidth(banner),
-                        height: getHeight(banner)
+                        width: getWidth(feed.banners.graph[0]),
+                        height: getHeight(feed.banners.graph[0])
                     },
                     '*'
                 );
@@ -105,9 +103,4 @@ export function inlineScript(
             }
         }
     };
-
-    const script = document.createElement('script');
-    script.src = '//ssp.rambler.ru/capirs_async.js';
-    script.async = true;
-    document.head.appendChild(script);
 }
