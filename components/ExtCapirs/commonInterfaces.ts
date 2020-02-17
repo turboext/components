@@ -8,6 +8,8 @@ export enum MessageType {
 export interface IWidgetParams {
     begunAutoPad: number;
     begunBlockId: number;
+    height?: number;
+    width?: number;
     json?: Record<string, string | number>;
 }
 

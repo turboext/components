@@ -15,7 +15,7 @@ export function inlineScript(
     window: Window,
     document: Document,
     globalCallbackProperty: string,
-    params: IWidgetParams
+    capirsParams: IWidgetParams
 ): void {
     window.addEventListener(
         'message',
@@ -27,8 +27,10 @@ export function inlineScript(
             window.context = window.context || {};
             window.context.location = window.context.location || {};
 
-            // Save href and referrer in AMP-like fashion
-            // They will be used inside of capirs automatically
+            /**
+             * Save href and referrer in AMP-like fashion
+             * They will be used inside of capirs automatically
+             */
             window.context.location.href = window.context.location.href || event.data.href;
             window.context.referrer = window.context.referrer || event.data.referrer;
         },
@@ -62,21 +64,21 @@ export function inlineScript(
             init: () => {
                 const block = document.body.querySelector<HTMLDivElement>('.capirs-container');
 
-                window.Adf.banner.ssp(block, params.json, {
-                    'begun-auto-pad': params.begunAutoPad,
-                    'begun-block-id': params.begunBlockId
+                window.Adf.banner.ssp(block, capirsParams.json, {
+                    'begun-auto-pad': capirsParams.begunAutoPad,
+                    'begun-block-id': capirsParams.begunBlockId
                 });
             }
         },
         block: {
             draw: (feed: IFeed) => {
-                const banner = feed.banners.graph[0];
+                const [banner] = feed.banners.graph;
 
                 window.parent.postMessage(
                     {
                         message: 'loading-succeed',
                         width: getWidth(banner),
-                        // iframe height should be in pixels without "px" at the end
+                        // Iframe height should be in pixels without "px" at the end
                         height: parseInt(banner.height, 10)
                     },
                     '*'

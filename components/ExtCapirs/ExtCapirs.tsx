@@ -19,6 +19,8 @@ interface IState {
 interface IExtCapirsProps {
     'data-begun-auto-pad': number;
     'data-begun-block-id': number;
+    'data-width': string;
+    'data-height': string;
     'data-json'?: Record<string, string | number>;
 }
 
@@ -65,7 +67,20 @@ export class ExtCapirs extends React.PureComponent<IExtCapirsProps, IState> {
         }
 
         window.addEventListener('message', event => this.postMessageHandler(event));
-        this.composeHtmlString();
+
+        // Преобразуем все пришедшие data-пропсы в параметры виджета
+        const widgetParams: IWidgetParams = Object.keys(this.props)
+            .reduce((agr, propName) => {
+                if (propName.indexOf('data-') === 0) {
+                    const camelCasedName = camelCase(propName.slice(5));
+                    agr[camelCasedName] = this.props[propName];
+                }
+
+                return agr;
+            }, {} as unknown as IWidgetParams);
+
+        this.useInitialDimensions(widgetParams.width, widgetParams.height);
+        this.composeHtmlString(widgetParams);
     }
 
     public render(): React.ReactNode {
@@ -80,19 +95,24 @@ export class ExtCapirs extends React.PureComponent<IExtCapirsProps, IState> {
         );
     }
 
-    private composeHtmlString(): void {
+    /**
+     * Use initial dimensions which are passed by the platform.
+     * These values are applied to the iframe directly.
+     * @param width initial width of iframe
+     * @param height initial height of iframe
+     */
+    private useInitialDimensions(
+        width: IWidgetParams['width'],
+        height: IWidgetParams['height']
+    ): void {
+        this.setState({
+            height: typeof height === 'number' ? height : DEFAULT_HEIGHT,
+            width: typeof width === 'number' ? width : null
+        });
+    }
+
+    private composeHtmlString(widgetParams: IWidgetParams): void {
         if (typeof window !== 'undefined') {
-            // Преобразуем все пришедшие data-пропсы в параметры виджета
-            const widgetParams: IWidgetParams = Object.keys(this.props)
-                .reduce((agr, propName) => {
-                    if (propName.indexOf('data-') === 0) {
-                        const camelCasedName = camelCase(propName.slice(5));
-                        agr[camelCasedName] = this.props[propName];
-                    }
-
-                    return agr;
-                }, {} as unknown as IWidgetParams);
-
             const html = (
                 <>
                     <div className="capirs-container" style={{ zIndex: MAX_Z_INDEX }} />
