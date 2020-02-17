@@ -28,6 +28,7 @@ export function inlineScript(
             window.context.location = window.context.location || {};
 
             // Save href and referrer in AMP-like fashion
+            // They will be used inside of capirs automatically
             window.context.location.href = window.context.location.href || event.data.href;
             window.context.referrer = window.context.referrer || event.data.referrer;
         },
@@ -56,26 +57,6 @@ export function inlineScript(
         }
     }
 
-    function getHeight(banner: IBanner): number {
-        if (!isResponsiveAd(banner.height)) {
-            return parseInt(banner.height, 10);
-        }
-
-        const { body, documentElement: html } = document;
-
-        /**
-         * Получаем высоту содержимого страницы
-         * @see https://stackoverflow.com/a/1147768/7200211
-         */
-        return Math.max(
-            body.scrollHeight,
-            body.offsetHeight,
-            html.clientHeight,
-            html.scrollHeight,
-            html.offsetHeight
-        );
-    }
-
     window[globalCallbackProperty] = {
         lib: {
             init: () => {
@@ -89,11 +70,14 @@ export function inlineScript(
         },
         block: {
             draw: (feed: IFeed) => {
+                const banner = feed.banners.graph[0];
+
                 window.parent.postMessage(
                     {
                         message: 'loading-succeed',
-                        width: getWidth(feed.banners.graph[0]),
-                        height: getHeight(feed.banners.graph[0])
+                        width: getWidth(banner),
+                        // iframe height should be in pixels without "px" at the end
+                        height: parseInt(banner.height, 10)
                     },
                     '*'
                 );

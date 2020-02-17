@@ -29,6 +29,7 @@ export interface IMessageData {
 }
 
 const DEFAULT_HEIGHT = 320;
+const MAX_Z_INDEX = 2147483647;
 
 enum LoadingState {
     inProgress = 'inProgress',
@@ -94,7 +95,7 @@ export class ExtCapirs extends React.PureComponent<IExtCapirsProps, IState> {
 
             const html = (
                 <>
-                    <div className="capirs-container" style={{ zIndex: 2147483647 }} />
+                    <div className="capirs-container" style={{ zIndex: MAX_Z_INDEX }} />
                     <link as="script" href="//ssp.rambler.ru/capirs_async.js" rel="preload" />
                     <script
                         /* eslint-disable-next-line */
