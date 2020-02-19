@@ -31,7 +31,7 @@ export interface IMessageData {
 }
 
 const DEFAULT_HEIGHT = 320;
-const MAX_Z_INDEX = 2147483647;
+const MAX_Z_INDEX = 214748363;
 
 enum LoadingState {
     inProgress = 'inProgress',
