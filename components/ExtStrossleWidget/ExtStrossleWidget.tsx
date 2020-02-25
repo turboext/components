@@ -14,13 +14,10 @@ interface IState {
     height?: number;
 }
 
-const DEFAULT_HEIGHT = 370;
+const DEFAULT_HEIGHT = 290;
 
 export class ExtStrossleWidget extends React.PureComponent<IProps, IState> {
-    public readonly state = {
-        htmlString: null,
-        height: DEFAULT_HEIGHT
-    };
+    public readonly state = { htmlString: null };
 
     private html = (
         <div
@@ -48,7 +45,7 @@ export class ExtStrossleWidget extends React.PureComponent<IProps, IState> {
             <ExtEmbed
                 html={this.state.htmlString || ''}
                 iframeClass="ext-embed__ext-strossle-widget"
-                iframeHeight={this.props['data-height'] || this.state.height.toString()}
+                iframeHeight={this.props['data-height'] || DEFAULT_HEIGHT.toString()}
             />
         );
     }
