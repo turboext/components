@@ -3,24 +3,24 @@ import { render } from 'react-dom';
 import { ExtEmbed } from '../ExtEmbed/ExtEmbed';
 
 interface IProps {
-    widgetId: string;
-    widgetSrc?: string;
-    modelId?: string;
-    render?: string;
-    search?: string;
-    smSource?: string;
-    smSourceTarget?: string;
-    categoryIds?: string;
-    vendorIds?: string;
-    matrixCols?: number;
-    matrixRows?: number;
-    matrixDimension?: string;
+    ['data-widget-id']: string;
+    ['data-widget-src']?: string;
+    ['data-model-id']?: string;
+    ['data-render']?: string;
+    ['data-search']?: string;
+    ['data-sm-source']?: string;
+    ['data-sm-source-target']?: string;
+    ['data-category-ids']?: string;
+    ['data-vendor-ids']?: string;
+    ['data-matrix-cols']?: number;
+    ['data-matrix-rows']?: number;
+    ['data-matrix-dimension']?: string;
 }
 
 export class ExtSocialMartWidget extends React.PureComponent<IProps> {
     public static defaultProps = {
-        render: 'js',
-        widgetSrc: 'http://widget.socialmart.ru/init.php'
+        'data-render': 'js',
+        'data-widget-src': '//widget.socialmart.ru/init.php'
     };
 
     public readonly state = { htmlString: null };
@@ -48,39 +48,24 @@ export class ExtSocialMartWidget extends React.PureComponent<IProps> {
     }
 
     private html(): JSX.Element {
-        const {
-            categoryIds,
-            matrixCols,
-            matrixDimension,
-            matrixRows,
-            modelId,
-            search,
-            smSource,
-            smSourceTarget,
-            vendorIds,
-            widgetId,
-            ...rest
-        } = this.props;
-
         return (
             <>
                 <div
                     className="smw3"
-                    data-category-ids={categoryIds}
-                    data-matrix-cols={matrixCols}
-                    data-matrix-dimension={matrixDimension}
-                    data-matrix-rows={matrixRows}
-                    data-model-id={modelId}
-                    data-search={search}
-                    data-sm-source={smSource}
-                    data-sm-source-target={smSourceTarget}
-                    data-vendor-ids={vendorIds}
-                    data-widget-id={widgetId}
-                    {...rest}
+                    data-category-ids={this.props['data-category-ids']}
+                    data-matrix-cols={this.props['data-matrix-cols']}
+                    data-matrix-dimension={this.props['data-matrix-dimension']}
+                    data-matrix-rows={this.props['data-matrix-rows']}
+                    data-model-id={this.props['data-model-id']}
+                    data-search={this.props['data-search']}
+                    data-sm-source={this.props['data-sm-source']}
+                    data-sm-source-target={this.props['data-sm-source-target']}
+                    data-vendor-ids={this.props['data-vendor-ids']}
+                    data-widget-id={this.props['data-widget-id']}
                 />
                 <noscript>
                     <a
-                        href="http://socialmart.ru"
+                        href="//socialmart.ru"
                         rel="noopener noreferrer"
                         target="_blank"
                         title="SocialMart"
@@ -99,6 +84,6 @@ export class ExtSocialMartWidget extends React.PureComponent<IProps> {
     }
 
     private get fullSrc(): string {
-        return `${this.props.widgetSrc}?render=${this.props.render}&wid=${this.props.widgetId}`;
+        return `${this.props['data-widget-src']}?render=${this.props['data-render']}&wid=${this.props['data-widget-id']}`;
     }
 }
