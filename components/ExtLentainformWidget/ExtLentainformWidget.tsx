@@ -21,13 +21,8 @@ interface IMessageData {
 
 const DEFAULT_HEIGHT = 320;
 
-interface IState {
-    htmlString: string | null;
-    loadingState: LoadingState;
-    height: number;
-}
 
-type WidgetParams = Record<string, string | string >;
+type WidgetParams = Record<string, string>;
 
 function inlineScript(window: Window, document: Document, url: string): void {
     const script = document.createElement('script');
@@ -36,7 +31,7 @@ function inlineScript(window: Window, document: Document, url: string): void {
     document.body.appendChild(script);
 }
 
-export class ExtLentainformWidget extends React.PureComponent<IState> {
+export class ExtLentainformWidget extends React.PureComponent {
     public readonly state = {
         htmlString: null,
         loadingState: LoadingState.inProgress,
