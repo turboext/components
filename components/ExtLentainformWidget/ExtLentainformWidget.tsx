@@ -21,7 +21,6 @@ interface IMessageData {
 
 const DEFAULT_HEIGHT = 320;
 
-
 type WidgetParams = Record<string, string>;
 
 function inlineScript(window: Window, document: Document, url: string): void {
