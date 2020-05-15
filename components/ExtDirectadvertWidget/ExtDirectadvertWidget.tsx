@@ -43,7 +43,7 @@ type ComponentProps = {
 function inlineScript(document: Document, blockId: number, domain: string): void {
     const script = document.createElement('script');
     const serverName = domain || 'code.directadvert.ru';
-    script.src = `//${encodeURIComponent(serverName)}/data/${blockId}.js?async=1&div=da_${blockId}`;
+    script.src = `//${encodeURIComponent(serverName)}/data/${blockId}.js?async=1&tag=turbo&div=da_${blockId}`;
     script.async = true;
     document.head.appendChild(script);
 }
@@ -64,14 +64,13 @@ export class ExtDirectadvertWidget extends React.PureComponent<ComponentProps, I
         if (typeof window === 'undefined') {
             return;
         }
-        window.addEventListener('message', this.postMessageHandler);
+        window.addEventListener('message', event => this.postMessageHandler(event));
         this.initDimensions();
         this.composeHtmlString();
     }
 
     public render(): React.ReactNode {
         const { width, height, htmlString, loadingState } = this.state;
-
         return (
             <>
                 {loadingState !== LoadingState.failed && (
