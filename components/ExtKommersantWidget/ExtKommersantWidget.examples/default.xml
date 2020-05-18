@@ -1,0 +1,9 @@
+<ExtKommersantWidget
+        data-root-id="moscow-cameras-map"
+        data-iframe-width="100%"
+        data-iframe-height="400"
+        data-js-dependencies='["https://im.kommersant.ru/ContentFlex/widgets/moscow-covid-cameras/geo.js","https://api-maps.yandex.ru/2.1/?lang=ru-RU&amp;apikey=46943e80-6622-4a1d-b5be-00ca16f4f202","https://im.kommersant.ru/ContentFlex/widgets/moscow-covid-cameras/map.js?zi"]'
+        data-css-dependencies='["https://im.kommersant.ru/ContentFlex/widgets/moscow-covid-cameras/style.css?zi"]'
+        data-footer-text="Читать подробности в материале"
+        data-footer-link="https://www.kommersant.ru/doc/4327533"
+/>
