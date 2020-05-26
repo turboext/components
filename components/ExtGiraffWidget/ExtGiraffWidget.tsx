@@ -37,7 +37,7 @@ type ComponentProps = {
     'data-block-name': string;
 } & Record<string, string | number | boolean>;
 
-function inlineScript(document: Document, blockId: number, domain: string, blockName: string): void {
+function inlineScript(document: Document, domain: string, blockName: string): void {
     const script = document.createElement('script');
     const serverName = domain || 'code.giraff.io';
     script.src = `//${encodeURIComponent(serverName)}/data/widget-${encodeURIComponent(blockName)}.js`;
@@ -45,7 +45,7 @@ function inlineScript(document: Document, blockId: number, domain: string, block
     document.head.appendChild(script);
 }
 
-export class ExtGiraffadvertWidget extends React.PureComponent<ComponentProps, IState> {
+export class ExtGiraffWidget extends React.PureComponent<ComponentProps, IState> {
     public readonly state: IState = {
         htmlString: '',
         loadingState: LoadingState.inProgress,
@@ -93,7 +93,7 @@ export class ExtGiraffadvertWidget extends React.PureComponent<ComponentProps, I
                     <div id={`grf_${blockName}_${blockId}`} />
                     {/* eslint-disable-next-line */}
                     <script dangerouslySetInnerHTML={{
-                        __html: `(${inlineScript.toString()})(document,${blockName},'${serverName || ''}')`
+                        __html: `(${inlineScript.toString()})(document,'${serverName || ''}', '${blockName}')`
                     }}
                     />
                 </div>
