@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { render } from 'react-dom';
-
+import './ExtGiraffWidget.scss';
 import { ExtEmbed } from '../ExtEmbed/ExtEmbed';
 
 interface IState {
@@ -38,11 +38,14 @@ type ComponentProps = {
 } & Record<string, string | number | boolean>;
 
 function inlineScript(document: Document, domain: string, blockName: string): void {
-    const script = document.createElement('script');
-    const serverName = domain || 'code.giraff.io';
-    script.src = `//${encodeURIComponent(serverName)}/data/widget-${encodeURIComponent(blockName)}.js`;
-    script.async = true;
-    document.head.appendChild(script);
+    if (typeof window !== 'undefined') {
+        window['giraff_iframe_mode'] = true;
+        const script = document.createElement('script');
+        const serverName = domain || 'code.giraff.io';
+        script.src = `//${encodeURIComponent(serverName)}/data/widget-${encodeURIComponent(blockName)}.js`;
+        script.async = true;
+        document.head.appendChild(script);
+    }
 }
 
 export class ExtGiraffWidget extends React.PureComponent<ComponentProps, IState> {
@@ -73,6 +76,7 @@ export class ExtGiraffWidget extends React.PureComponent<ComponentProps, IState>
                 {loadingState !== LoadingState.failed && (
                     <ExtEmbed
                         html={htmlString}
+                        iframeClass="ext-embed__ext-giraff-widget"
                         iframeHeight={height.toString()}
                         isLoaded
                         {...(width && {
@@ -93,7 +97,7 @@ export class ExtGiraffWidget extends React.PureComponent<ComponentProps, IState>
                     <div id={`grf_${blockName}_${blockId}`} />
                     {/* eslint-disable-next-line */}
                     <script dangerouslySetInnerHTML={{
-                        __html: `(${inlineScript.toString()})(document,'${serverName || ''}', '${blockName}')`
+                        __html: `(${inlineScript.toString()})(document,'${serverName || ''}','${blockName}')`
                     }}
                     />
                 </div>
