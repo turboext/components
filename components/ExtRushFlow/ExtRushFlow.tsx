@@ -40,7 +40,7 @@ enum MessageType {
     saveLocation = 'save-location',
 }
 
-export interface IMessageData {
+interface IMessageData {
     type: string;
     width?: number;
     height?: number;
@@ -50,7 +50,6 @@ export interface IMessageData {
 interface IMessageHandlerArguments {
     messageData: IMessageData;
     origin: MessageEvent['origin'];
-    source: Window;
 }
 
 declare global {
@@ -158,7 +157,7 @@ export class ExtRushFlow extends React.PureComponent<IRushFlowProps, IState> {
         [this.state.componentPostUid + MessageType.changeComponentStyle]:
         ({ messageData }: IMessageHandlerArguments) => this.changeComponentStyleHandler(messageData),
         [this.state.componentPostUid + MessageType.getLocation]:
-        ({ origin, source }: IMessageHandlerArguments) => this.sendLocation(source, origin)
+        ({ origin }: IMessageHandlerArguments) => this.sendLocation(origin)
     }
 
     public componentDidMount(): void {
@@ -219,7 +218,6 @@ export class ExtRushFlow extends React.PureComponent<IRushFlowProps, IState> {
         if (needToProcessMessage) {
             this.messagesHandlersMap[event.data.message]({
                 origin: event.origin,
-                source: event.source,
                 messageData: event.data
             });
         }
@@ -233,9 +231,9 @@ export class ExtRushFlow extends React.PureComponent<IRushFlowProps, IState> {
         this.setState({ loadingState: LoadingState.failed });
     }
 
-    private sendLocation(source: Window, origin: MessageEvent['origin']): void {
+    private sendLocation(origin: MessageEvent['origin']): void {
         if (typeof window !== 'undefined') {
-            source.postMessage({
+            window.postMessage({
                 message: this.state.componentPostUid + MessageType.saveLocation,
                 href: location.href,
                 referrer: document.referrer
