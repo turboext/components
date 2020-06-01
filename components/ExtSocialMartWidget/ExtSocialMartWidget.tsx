@@ -19,12 +19,12 @@ interface IProps {
     /**
      * Ширина для тега iframe
      */
-    iframeWidth?: string;
+    ['data-iframe-width']?: string;
 
     /**
      * Высота для тега iframe
      */
-    iframeHeight?: string;
+    ['data-iframte-height']?: string;
 }
 
 export class ExtSocialMartWidget extends React.PureComponent<IProps> {
@@ -53,8 +53,8 @@ export class ExtSocialMartWidget extends React.PureComponent<IProps> {
             <ExtEmbed
                 html={this.state.htmlString || ''}
                 iframeClass="ext-embed__ext-socialmart-widget"
-                iframeHeight={this.props.iframeHeight}
-                iframeWidth={this.props.iframeWidth}
+                iframeHeight={this.props['data-iframe-height']}
+                iframeWidth={this.props['data-iframe-width']}
             />
         );
     }
