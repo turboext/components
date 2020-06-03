@@ -49,7 +49,6 @@ interface IMessageData {
 
 interface IMessageHandlerArguments {
     messageData: IMessageData;
-    origin: MessageEvent['origin'];
 }
 
 declare global {
@@ -58,13 +57,6 @@ declare global {
     interface Window {
         RushFlow: {
             renderComponent: (params: WidgetParams) => void;
-        };
-
-        context?: {
-            referrer?: string;
-            location?: {
-                href?: string;
-            };
         };
     }
 }
@@ -116,21 +108,6 @@ function inlineScript(window: Window, document: Document, globalCallbackProperty
         window.RushFlow.renderComponent(params);
     });
 
-    window.addEventListener('message', event => {
-        if (!event.data || event.data.message !== `${componentPostUid}save-location`) {
-            return;
-        }
-
-        window.context = window.context || {};
-        window.context.location = window.context.location || {};
-
-        window.context.location.href = window.context.location.href || event.data.href;
-        window.context.referrer = window.context.referrer || event.data.referrer;
-    }, false);
-
-    // Request href and referrer from the top window
-    window.parent.postMessage({ message: `${componentPostUid}get-location` }, '*');
-
     const rnd = Math.random() * 10;
     const script = document.createElement('script');
     script.src = `//rushflow.ru/component-loader?rnd=${rnd}`;
@@ -155,9 +132,7 @@ export class ExtRushFlow extends React.PureComponent<IRushFlowProps, IState> {
         [this.state.componentPostUid + MessageType.loadingFailed]: () => this.loadingFailedHandler(),
         [this.state.componentPostUid + MessageType.hideComponent]: () => this.hideComponentHandler(),
         [this.state.componentPostUid + MessageType.changeComponentStyle]:
-        ({ messageData }: IMessageHandlerArguments) => this.changeComponentStyleHandler(messageData),
-        [this.state.componentPostUid + MessageType.getLocation]:
-        ({ origin }: IMessageHandlerArguments) => this.sendLocation(origin)
+        ({ messageData }: IMessageHandlerArguments) => this.changeComponentStyleHandler(messageData)
     }
 
     public componentDidMount(): void {
@@ -217,7 +192,6 @@ export class ExtRushFlow extends React.PureComponent<IRushFlowProps, IState> {
             Object.prototype.hasOwnProperty.call(this.messagesHandlersMap, event.data.message);
         if (needToProcessMessage) {
             this.messagesHandlersMap[event.data.message]({
-                origin: event.origin,
                 messageData: event.data
             });
         }
@@ -229,16 +203,6 @@ export class ExtRushFlow extends React.PureComponent<IRushFlowProps, IState> {
 
     private loadingFailedHandler(): void {
         this.setState({ loadingState: LoadingState.failed });
-    }
-
-    private sendLocation(origin: MessageEvent['origin']): void {
-        if (typeof window !== 'undefined') {
-            window.postMessage({
-                message: this.state.componentPostUid + MessageType.saveLocation,
-                href: location.href,
-                referrer: document.referrer
-            }, origin);
-        }
     }
 
     private hideComponentHandler(): void {
