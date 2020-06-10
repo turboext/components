@@ -10,7 +10,7 @@ interface IState {
     loadingState: LoadingState;
     width: number;
     height: number;
-    style: string;
+    classNames: string;
 }
 
 interface IRushFlowProps {
@@ -51,19 +51,22 @@ interface IMessageHandlerArguments {
     messageData: IMessageData;
 }
 
-declare global {
-    // Расширяем существующий интерфейс Window, поэтому он не может начинаться с I - отключаем eslint
-    // eslint-disable-next-line @typescript-eslint/interface-name-prefix
-    interface Window {
-        RushFlow: {
-            renderComponent: (params: WidgetParams) => void;
-        };
-    }
+interface IRushFlowWindow extends Window {
+    RushFlow: {
+        renderComponent: (params: WidgetParams) => void;
+    };
 }
+
 type WidgetParams = Record<string, string | number | boolean | Function>;
 
-function inlineScript(window: Window, document: Document, globalCallbackProperty: string, params: WidgetParams): void {
-    const componentPostUid = params.uid;
+function inlineScript(
+    window: IRushFlowWindow,
+    document: Document,
+    globalCallbackProperty: string,
+    params: WidgetParams
+): void {
+    const componentPostUid = params.uid.toString();
+    const makeUniqueMessage = (message: string): string => `${componentPostUid}${message}`;
     window[globalCallbackProperty] = window[globalCallbackProperty] || [];
     window[globalCallbackProperty].push(() => {
         params.container = '.component-container';
@@ -85,24 +88,23 @@ function inlineScript(window: Window, document: Document, globalCallbackProperty
                 );
 
                 const style = styleData || '';
-
-                window.parent.postMessage({ message: `${componentPostUid}loading-succeed`, width, height, style }, '*');
+                window.parent.postMessage({ message: makeUniqueMessage('loading-succeed'), width, height, style }, '*');
             }
         };
         params.failCallback = () => {
             if (typeof window !== 'undefined') {
-                window.parent.postMessage({ message: `${componentPostUid}loading-failed` }, '*');
+                window.parent.postMessage({ message: makeUniqueMessage('loading-failed') }, '*');
             }
         };
         params.hideComponentCallback = () => {
             if (typeof window !== 'undefined') {
-                window.parent.postMessage({ message: `${componentPostUid}hide-component` }, '*');
+                window.parent.postMessage({ message: makeUniqueMessage('hide-component') }, '*');
             }
         };
         params.changeComponentStyleCallback = (styleData: string) => {
             if (typeof window !== 'undefined') {
                 const style = styleData || '';
-                window.parent.postMessage({ message: `${componentPostUid}change-component-style`, style }, '*');
+                window.parent.postMessage({ message: makeUniqueMessage('change-component-style'), style }, '*');
             }
         };
         window.RushFlow.renderComponent(params);
@@ -121,17 +123,17 @@ export class ExtRushFlow extends React.PureComponent<IRushFlowProps, IState> {
         loadingState: LoadingState.inProgress,
         width: this.props['data-width'] || DEFAULT_WIDTH,
         height: this.props['data-height'] || DEFAULT_HEIGHT,
-        style: '',
+        classNames: '',
         componentPostUid: `${this.props['data-cid']}_${new Date().getTime()
             .toString()}_`
     };
 
     private messagesHandlersMap = {
-        [this.state.componentPostUid + MessageType.loadingSucceed]:
+        [`${this.state.componentPostUid}${MessageType.loadingSucceed}`]:
         ({ messageData }: IMessageHandlerArguments) => this.loadingSucceedHandler(messageData),
-        [this.state.componentPostUid + MessageType.loadingFailed]: () => this.loadingFailedHandler(),
-        [this.state.componentPostUid + MessageType.hideComponent]: () => this.hideComponentHandler(),
-        [this.state.componentPostUid + MessageType.changeComponentStyle]:
+        [`${this.state.componentPostUid}${MessageType.loadingFailed}`]: () => this.loadingFailedHandler(),
+        [`${this.state.componentPostUid}${MessageType.hideComponent}`]: () => this.hideComponentHandler(),
+        [`${this.state.componentPostUid}${MessageType.changeComponentStyle}`]:
         ({ messageData }: IMessageHandlerArguments) => this.changeComponentStyleHandler(messageData)
     }
 
@@ -148,7 +150,7 @@ export class ExtRushFlow extends React.PureComponent<IRushFlowProps, IState> {
             (
                 <ExtEmbed
                     html={this.state.htmlString || ''}
-                    iframeClass={`ext-embed__ext-rush-flow${this.state.style.toString() || '__hidden'}`}
+                    iframeClass={`ext-embed__ext-rush-flow${this.state.classNames || '__hidden'}`}
                     iframeHeight={this.state.height.toString()}
                     iframeWidth={this.state.width.toString()}
                     isLoaded={this.props['data-preloader'] ? this.state.loadingState === LoadingState.succeed : DEFAULT_LOADING_STATE}
@@ -198,7 +200,7 @@ export class ExtRushFlow extends React.PureComponent<IRushFlowProps, IState> {
     }
 
     private loadingSucceedHandler(messageData: IMessageData): void {
-        this.setState({ loadingState: LoadingState.succeed, width: messageData.width || DEFAULT_WIDTH, height: messageData.height || DEFAULT_HEIGHT, style: messageData.style || '' });
+        this.setState({ loadingState: LoadingState.succeed, width: messageData.width || DEFAULT_WIDTH, height: messageData.height || DEFAULT_HEIGHT, classNames: messageData.style || '' });
     }
 
     private loadingFailedHandler(): void {
@@ -206,10 +208,10 @@ export class ExtRushFlow extends React.PureComponent<IRushFlowProps, IState> {
     }
 
     private hideComponentHandler(): void {
-        this.setState({ style: '__hidden' });
+        this.setState({ classNames: '__hidden' });
     }
 
     private changeComponentStyleHandler(messageData: IMessageData): void {
-        this.setState({ style: messageData.style || '' });
+        this.setState({ classNames: messageData.style || '' });
     }
 }
