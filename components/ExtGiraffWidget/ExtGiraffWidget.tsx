@@ -78,7 +78,7 @@ export class ExtGiraffWidget extends React.PureComponent<ComponentProps, IState>
                         html={htmlString}
                         iframeClass="ext-embed__ext-giraff-widget"
                         iframeHeight={height.toString()}
-                        isLoaded
+                        isLoaded={loadingState === LoadingState.succeed}
                         {...(width && {
                             iframeWidth: width.toString()
                         })}
