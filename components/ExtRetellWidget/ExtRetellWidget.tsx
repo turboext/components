@@ -3,7 +3,7 @@ import { render } from 'react-dom';
 import { ExtEmbed } from '../ExtEmbed/ExtEmbed';
 
 interface IProps {
-    'data-article-url': string;
+    'data-url': string;
     'data-source'?: string;
     'data-theme'?: string;
 }
@@ -22,7 +22,7 @@ interface IWidgetOptions {
 enum LoadingState {
     loading = 'loading',
     ready = 'ready',
-    failed = 'feailed'
+    failed = 'failed'
 }
 
 enum MessageType {
@@ -55,10 +55,8 @@ export class ExtRetellWidget extends React.PureComponent<IProps, IState> {
     }
 
     public componentDidMount(): void {
-        if (typeof window !== 'undefined') {
-            window.addEventListener('message', event => this.handlePostMessage(event));
-            this.makeHtml();
-        }
+        window.addEventListener('message', event => this.handlePostMessage(event));
+        this.makeHtml();
     }
 
     public render(): React.ReactNode {
@@ -102,34 +100,22 @@ export class ExtRetellWidget extends React.PureComponent<IProps, IState> {
 
     private makeInitializer(): string {
         const {
-            'data-article-url': articleUrl,
+            'data-url': url,
             'data-source': source,
             'data-theme': theme
         } = this.props;
 
-        let initializer = 'Speechki.init(';
         const options: IWidgetOptions = {
-            url: articleUrl
+            url,
+            source,
+            theme
         };
 
-        if (typeof source !== 'undefined') {
-            options.source = source;
-        }
-
-        if (typeof theme !== 'undefined') {
-            options.theme = theme;
-        }
-
-        initializer += `${JSON.stringify(options)})`;
-
-        return initializer;
+        return `Speechki.init(${JSON.stringify(options)})`;
     }
 
     private handlePostMessage(event: MessageEvent): void {
-        const needToProcessMessage = event.data && event.data.type &&
-        Object.prototype.hasOwnProperty.call(this.messagesHandlersMap, event.data.type);
-
-        if (needToProcessMessage) {
+        if (event.data && event.data.type && this.messagesHandlersMap[event.data.type]) {
             this.messagesHandlersMap[event.data.type](event.data);
         }
     }
