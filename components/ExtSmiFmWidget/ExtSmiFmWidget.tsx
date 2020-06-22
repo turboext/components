@@ -3,7 +3,6 @@ import { ExtEmbed } from '../ExtEmbed/ExtEmbed';
 
 interface IProps {
     'data-bid': number;
-    'data-width'?: string;
     'data-height'?: string;
 }
 
