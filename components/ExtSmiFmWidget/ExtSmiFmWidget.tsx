@@ -12,7 +12,7 @@ export function ExtSmiFmWidget(props: IProps): React.ReactNode {
         'data-height': height = '300'
     } = props;
 
-    const html = `<script async src="https://static.mirror.smi.fm/gen2/js/yandexTurbo.js"></script>
+    const html = `<script async src="https://smi.fm/js/turbo-block/${Number(blockId)}.js"></script>
 <div class="no24_teaser" data-bid="${Number(blockId)}"></div>`;
 
     return (
