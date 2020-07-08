@@ -8,6 +8,7 @@ interface IProps {
     'data-source'?: string;
     'data-theme'?: string;
     'data-rate'?: string | number;
+    [key: string]: string | number | undefined;
 }
 
 interface IState {
@@ -20,6 +21,7 @@ interface IWidgetOptions {
     source?: string;
     theme?: string;
     rate?: string | number;
+    [key: string]: string | number | undefined;
 }
 
 enum LoadingState {
@@ -109,14 +111,11 @@ export class ExtRetellWidget extends React.PureComponent<IProps, IState> {
 
     private getWidgetOptions(): IWidgetOptions {
         return Object.keys(this.props).reduce((prev, cur) => {
-            if (cur.indexOf('data-') < 0) {
-                return { ...prev };
+            if (cur.indexOf('data-') === 0) {
+                prev[camelCase(cur.replace('data-', ''))] = this.props[cur];
             }
 
-            return {
-                ...prev,
-                [camelCase(cur.replace('data-', ''))]: this.props[cur]
-            };
+            return prev;
         }, {} as unknown as IWidgetOptions);
     }
 
