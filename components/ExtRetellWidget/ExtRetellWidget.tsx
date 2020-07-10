@@ -1,11 +1,14 @@
 import * as React from 'react';
 import { render } from 'react-dom';
+import { camelCase } from 'camel-case';
 import { ExtEmbed } from '../ExtEmbed/ExtEmbed';
 
 interface IProps {
     'data-url': string;
     'data-source'?: string;
     'data-theme'?: string;
+    'data-rate'?: string | number;
+    [key: string]: string | number | undefined;
 }
 
 interface IState {
@@ -17,6 +20,8 @@ interface IWidgetOptions {
     url: string;
     source?: string;
     theme?: string;
+    rate?: string | number;
+    [key: string]: string | number | undefined;
 }
 
 enum LoadingState {
@@ -99,19 +104,19 @@ export class ExtRetellWidget extends React.PureComponent<IProps, IState> {
     }
 
     private makeInitializer(): string {
-        const {
-            'data-url': url,
-            'data-source': source,
-            'data-theme': theme
-        } = this.props;
-
-        const options: IWidgetOptions = {
-            url,
-            source,
-            theme
-        };
+        const options: IWidgetOptions = this.getWidgetOptions();
 
         return `Speechki.init(${JSON.stringify(options)})`;
+    }
+
+    private getWidgetOptions(): IWidgetOptions {
+        return Object.keys(this.props).reduce((prev, cur) => {
+            if (cur.indexOf('data-') === 0) {
+                prev[camelCase(cur.replace('data-', ''))] = this.props[cur];
+            }
+
+            return prev;
+        }, {} as unknown as IWidgetOptions);
     }
 
     private handlePostMessage(event: MessageEvent): void {
