@@ -18,17 +18,6 @@ enum LoadingState {
     failed = 'failed',
 }
 
-enum MessageType {
-    loadingSucceed = 'loading-succeed',
-    loadingFailed = 'loading-failed',
-}
-
-interface IMessageData {
-    type: string;
-    height?: number;
-    width?: number;
-}
-
 type ComponentProps = {
     'data-script-id': string;
     'data-height': number;
@@ -44,7 +33,7 @@ function inlineScript(document: Document, scriptId: string): void {
         });
         var script = document.createElement("script");
         script.type = "text/javascript";
-        script.src = "//rb.infox.sg/infox/" + scriptId;
+        script.src = "//rb.infox.sg/infox/" + scriptId + "?from=turbo";
         script.async = true;
 		document.head.appendChild(script);
     }
