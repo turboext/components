@@ -64,7 +64,7 @@ export class ExtSmi2Widget extends React.PureComponent<ComponentProps, IState> {
         if (typeof window === 'undefined') {
             return;
         }
-        window.addEventListener('message', this.postMessageHandler);
+        window.addEventListener('message', this.postMessageHandler.bind(this));
         this.initDimensions();
         this.composeHtmlString();
     }
