@@ -17,9 +17,11 @@ enum MessageType {
 interface IMessageData {
     type: string;
     height?: number;
+    width?: number;
 }
 
 const DEFAULT_HEIGHT = 320;
+const DEFAULT_WIDTH = '100%';
 
 type WidgetParams = Record<string, string>;
 
@@ -34,7 +36,8 @@ export class ExtLentainformWidget extends React.PureComponent {
     public readonly state = {
         htmlString: null,
         loadingState: LoadingState.inProgress,
-        height: DEFAULT_HEIGHT
+        height: DEFAULT_HEIGHT,
+        width: DEFAULT_WIDTH
     };
 
     private messagesHandlersMap = {
@@ -50,14 +53,18 @@ export class ExtLentainformWidget extends React.PureComponent {
     }
 
     public render(): React.ReactNode {
-        return this.state.loadingState === LoadingState.failed ?
+        const { width, height, htmlString, loadingState } = this.state;
+        return loadingState === LoadingState.failed ?
             null :
             (
                 <ExtEmbed
-                    html={this.state.htmlString || ''}
+                    html={htmlString || ''}
                     iframeClass="ext-embed__ext-lentainform-widget"
-                    iframeHeight={this.state.height.toString()}
-                    isLoaded={this.state.loadingState === LoadingState.succeed}
+                    iframeHeight={height.toString()}
+                    {...(width && {
+                        iframeWidth: width.toString()
+                    })}
+                    isLoaded={loadingState === LoadingState.succeed}
                 />
             );
     }
@@ -104,7 +111,11 @@ export class ExtLentainformWidget extends React.PureComponent {
     }
 
     private loadingSucceedHandler(messageData: IMessageData): void {
-        this.setState({ loadingState: LoadingState.succeed, height: messageData.height || DEFAULT_HEIGHT });
+        this.setState({
+            loadingState: LoadingState.succeed,
+            height: messageData.height || DEFAULT_HEIGHT,
+            width: messageData.width || DEFAULT_WIDTH
+        });
     }
 
     private loadingFailedHandler(): void {
