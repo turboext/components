@@ -5,62 +5,45 @@ import { ExtEmbed } from '../ExtEmbed/ExtEmbed';
 
 interface IState {
     htmlString: string;
-    loadingState: LoadingState;
-    height: number;
-    width?: number;
 }
 
-const DEFAULT_HEIGHT = 400;
-
-enum LoadingState {
-    inProgress = 'inProgress',
-    succeed = 'succeed',
-    failed = 'failed',
-}
-
-type ComponentProps = {
+interface IComponentProps {
     'data-script-id': string;
-    'data-height': number;
-    'data-width'?: number;
-} & Record<string, string | number | boolean>;
+    'data-height': string;
+    'data-width'?: string;
+}
 
 function inlineScript(document: Document, scriptId: string): void {
     if (typeof window !== 'undefined') {
-		var n = "infoxContextAsyncCallbacks" + scriptId;
+        const n = `infoxContextAsyncCallbacks${scriptId}`;
         window[n] = window[n] || [];
-        window[n].push(function() {
-            window['INFOX' + scriptId].renderTo("infox_" + scriptId);
+        window[n].push(() => {
+            window[`INFOX${scriptId}`].renderTo(`infox_${scriptId}`);
         });
-        var script = document.createElement("script");
-        script.type = "text/javascript";
-        script.src = "//rb.infox.sg/infox/" + scriptId + "?from=turbo";
+        const script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = `//rb.infox.sg/infox/${scriptId}?from=turbo`;
         script.async = true;
-		document.head.appendChild(script);
+        document.head.appendChild(script);
     }
 }
 
-export class ExtInfoxSgWidget extends React.PureComponent<ComponentProps, IState> {
+export class ExtInfoxSgWidget extends React.PureComponent<IComponentProps, IState> {
     public readonly state: IState = {
-        htmlString: '',
-        loadingState: LoadingState.inProgress,
-        height: DEFAULT_HEIGHT
+        htmlString: ''
     };
 
     public componentDidMount(): void {
         if (typeof window === 'undefined') {
             return;
         }
-        this.initDimensions();
         this.composeHtmlString();
     }
 
     public render(): React.ReactNode {
-        const { width, height, htmlString, loadingState } = this.state;
-
         if (!this.state.htmlString) {
             return null;
         }
-
         return (
             <ExtEmbed
                 html={this.state.htmlString || ''}
@@ -92,13 +75,4 @@ export class ExtInfoxSgWidget extends React.PureComponent<ComponentProps, IState
             });
         }
     }
-
-    private initDimensions(): void {
-        const { 'data-width': width, 'data-height': height } = this.props;
-        this.setState({
-            height: height || DEFAULT_HEIGHT,
-            width
-        });
-    }
-
 }
