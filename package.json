@@ -1,6 +1,6 @@
 {
   "name": "@turboext/components",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "description": "Dev environment for custom user components in turbo",
   "scripts": {
     "start": "npm run build:registry && concurrently \"npm run watch:server\" \"webpack\" \"npm run watch:registry\"",
