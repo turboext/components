@@ -6,7 +6,6 @@ import {
 } from './utils/basic';
 import { ExtEmbed } from '../ExtEmbed/ExtEmbed';
 
-
 interface IWidgetProps {
     'data-key': string;
 }
@@ -51,6 +50,7 @@ export class ExtRoistatWidget extends React.PureComponent<IWidgetProps, IWidgetS
         const { hasError, widgetHtml, isLoaded } = this.state;
         const width = '1';
         const height = '1';
+
         if (widgetHtml && !hasError) {
             return (
                 <div style={{ display: 'none' }}>
@@ -107,6 +107,7 @@ export class ExtRoistatWidget extends React.PureComponent<IWidgetProps, IWidgetS
         const initUrl = `https://cloud.roistat.com/api/site/1.0/${key}/turbo/init`;
         const location = typeof window === 'undefined' ? null : document.location;
         const referrer = typeof window === 'undefined' ? null : document.referrer;
+
         return `<script type="text/javascript">
             window.roistatInitTurbo = function(visitId, calltracking, emailtracking) {
                 id: '${id}';

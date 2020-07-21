@@ -9,6 +9,7 @@ function tryConvertWin1251(encodedURIComponent: string): string | null {
 
     while (i < encodedURIComponent.length) {
         const matchSubstring = encodedURIComponent.substring(i, i + 3);
+
         if (Object.prototype.hasOwnProperty.call(win1251toUtf8Map, matchSubstring)) {
             result += win1251toUtf8Map[matchSubstring];
             i += 3;
@@ -46,6 +47,7 @@ function roistatGetCookie(name: string): string | null {
 function roistatSetCookie(name: string, value: string, options: {expires: Date|number|string; path: string}): void {
     const cookieOptions = options || {};
     let { expires } = cookieOptions;
+
     if (typeof expires === 'number' && expires) {
         const d = new Date();
         const expireTime = expires * 1000;
@@ -53,6 +55,7 @@ function roistatSetCookie(name: string, value: string, options: {expires: Date|n
         expires = d;
         options.expires = d;
     }
+
     if (expires && expires instanceof Date) {
         cookieOptions.expires = expires.toUTCString();
     }
