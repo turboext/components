@@ -1,10 +1,10 @@
-import rp = require('request-promise');
 import { createHash } from 'crypto';
+import * as rp from 'request-promise';
 
 // Save xml data not to make (new) requests
 const savedXmls = {};
 
-export const getHtml = (xmlData: string): Promise<string> => {
+export const getHtml = (xmlData: string, options: rp.RequestPromiseOptions = {}): Promise<string> => {
     const hash = createHash('md5').update(xmlData)
         .digest('hex');
     if (savedXmls[hash]) {
@@ -16,7 +16,8 @@ export const getHtml = (xmlData: string): Promise<string> => {
         uri: 'https://turbo-components.yandex.net',
         method: 'POST',
         headers: {
-            'content-type': 'application/json'
+            'content-type': 'application/json',
+            ...options.headers || {}
         },
         body: JSON.stringify({ xml: xmlData })
     })

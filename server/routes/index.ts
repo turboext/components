@@ -30,7 +30,11 @@ router.get('/render/:componentName/:componentExample', async(req: Request, res: 
 
     try {
         xml = await readFile(examplePath, 'utf8');
-        data = removeCSP(preparePage(await getHtml(xml)));
+        data = removeCSP(preparePage(await getHtml(xml, {
+            headers: {
+                'User-Agent': req.get('User-Agent')
+            }
+        })));
     } catch (e) {
         next(handleErr(e, examplePath));
         return;
