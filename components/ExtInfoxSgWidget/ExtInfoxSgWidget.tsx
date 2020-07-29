@@ -11,7 +11,7 @@ type ComponentProps = {
     'data-script-id': string;
     'data-height': string;
     'data-width'?: string;
-} & Record<string, string | number | boolean>;
+}
 
 function inlineScript(document: Document, scriptId: string): void {
     if (typeof window !== 'undefined') {
