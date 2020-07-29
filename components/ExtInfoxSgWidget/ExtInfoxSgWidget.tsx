@@ -7,11 +7,11 @@ interface IState {
     htmlString: string;
 }
 
-type ComponentProps = {
+interface IComponentProps {
     'data-script-id': string;
     'data-height': string;
     'data-width'?: string;
-} & Record<string, string | number | boolean>;
+}
 
 function inlineScript(document: Document, scriptId: string): void {
     if (typeof window !== 'undefined') {
@@ -28,7 +28,7 @@ function inlineScript(document: Document, scriptId: string): void {
     }
 }
 
-export class ExtInfoxSgWidget extends React.PureComponent<ComponentProps, IState> {
+export class ExtInfoxSgWidget extends React.PureComponent<IComponentProps, IState> {
     public readonly state: IState = {
         htmlString: ''
     };
