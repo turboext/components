@@ -1,0 +1,47 @@
+<ExtRbcCovid
+  data-date='1556188111380'
+  data-info='{
+    "Россия": {
+      "recovered": {
+        "total": "693000",
+        "perDay": "3215"
+      },
+      "infected": {
+        "total": "887000",
+        "perDay": "5189"
+      },
+      "died": {
+        "total": "14900",
+        "perDay": "77"
+      }
+    },
+    "Москва": {
+      "recovered": {
+        "total": "189000",
+        "perDay": "803"
+      },
+      "infected": {
+        "total": "247000",
+        "perDay": "689"
+      },
+      "died": {
+        "total": "4572",
+        "perDay": "12"
+      }
+    },
+    "Мир": {
+      "recovered": {
+        "total": "11900000",
+        "perDay": "177733"
+      },
+      "infected": {
+        "total": "19700000",
+        "perDay": "256002"
+      },
+      "died": {
+        "total": "727000",
+        "perDay": "5457"
+      }
+    }
+  }'
+/>
