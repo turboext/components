@@ -18,7 +18,7 @@ module.exports = {
             'mask-border',
             'clip-path'
         ],
-        'function-url-scheme-whitelist': '/^\.\//',
+        'function-url-scheme-whitelist': ['/^\.\//', '/^http/'],
         'function-url-no-scheme-relative': true,
         'selector-class-pattern': '^((?!page__|typo|grid).)*$'
     }
