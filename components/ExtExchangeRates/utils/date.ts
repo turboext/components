@@ -1,4 +1,4 @@
-function toDoubleDigits(num: number): string {
+export function toDoubleDigits(num: number): string {
     return num >= 10 ? num.toString() : `0${num}`;
 }
 
