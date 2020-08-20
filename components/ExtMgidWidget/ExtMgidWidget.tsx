@@ -41,15 +41,17 @@ export class ExtMgidWidget extends React.PureComponent {
     };
 
     private messagesHandlersMap = {
-        [MessageType.loadingSucceed]: (messageData: IMessageData) => this.loadingSucceedHandler(messageData),
-        [MessageType.loadingFailed]: () => this.loadingFailedHandler()
+        [MessageType.loadingSucceed]: (messageData: IMessageData) => this.handleLoadingSucceed(messageData),
+        [MessageType.loadingFailed]: () => this.handleLoadingFailed()
     };
 
+    private constructor(props: Record<string, string | number | undefined>) {
+        super(props);
+        this.handlePostMessage = this.handlePostMessage.bind(this);
+    }
+
     public componentDidMount(): void {
-        if (typeof window !== 'undefined') {
-            window.addEventListener('message', event => this.postMessageHandler(event));
-            this.composeHtmlString();
-        }
+        this.composeHtmlString();
     }
 
     public render(): React.ReactNode {
@@ -65,6 +67,7 @@ export class ExtMgidWidget extends React.PureComponent {
                         iframeWidth: width.toString()
                     })}
                     isLoaded={loadingState === LoadingState.succeed}
+                    onMessage={this.handlePostMessage}
                 />
             );
     }
@@ -102,7 +105,7 @@ export class ExtMgidWidget extends React.PureComponent {
         }
     }
 
-    private postMessageHandler(event: MessageEvent): void {
+    private handlePostMessage(event: MessageEvent): void {
         const needToProcessMessage = event.data && event.data.message &&
             Object.prototype.hasOwnProperty.call(this.messagesHandlersMap, event.data.message);
         if (needToProcessMessage) {
@@ -110,7 +113,7 @@ export class ExtMgidWidget extends React.PureComponent {
         }
     }
 
-    private loadingSucceedHandler(messageData: IMessageData): void {
+    private handleLoadingSucceed(messageData: IMessageData): void {
         this.setState({
             loadingState: LoadingState.succeed,
             height: messageData.height || DEFAULT_HEIGHT,
@@ -118,7 +121,7 @@ export class ExtMgidWidget extends React.PureComponent {
         });
     }
 
-    private loadingFailedHandler(): void {
+    private handleLoadingFailed(): void {
         this.setState({ loadingState: LoadingState.failed });
     }
 }
