@@ -55,15 +55,19 @@ export class ExtGiraffWidget extends React.PureComponent<ComponentProps, IState>
     };
 
     private messagesHandlersMap = {
-        [MessageType.loadingSucceed]: (messageData: IMessageData) => this.loadingSucceedHandler(messageData),
-        [MessageType.loadingFailed]: () => this.loadingFailedHandler()
+        [MessageType.loadingSucceed]: (messageData: IMessageData) => this.handleLoadingSucceed(messageData),
+        [MessageType.loadingFailed]: () => this.handleLoadingFailed()
     };
+
+    private constructor(props: ComponentProps) {
+        super(props);
+        this.handlePostMessage = this.handlePostMessage.bind(this);
+    }
 
     public componentDidMount(): void {
         if (typeof window === 'undefined') {
             return;
         }
-        window.addEventListener('message', event => this.postMessageHandler(event));
         this.initDimensions();
         this.composeHtmlString();
     }
@@ -78,6 +82,7 @@ export class ExtGiraffWidget extends React.PureComponent<ComponentProps, IState>
                         iframeHeight={height.toString()}
                         iframeWidth={width ? width.toString() : '100%'}
                         isLoaded={loadingState === LoadingState.succeed}
+                        onMessage={this.handlePostMessage}
                     />
                 )}
             </>
@@ -114,7 +119,7 @@ export class ExtGiraffWidget extends React.PureComponent<ComponentProps, IState>
         });
     }
 
-    private postMessageHandler(event: MessageEvent): void {
+    private handlePostMessage(event: MessageEvent): void {
         const needToProcessMessage =
             event.data &&
             event.data.message &&
@@ -127,14 +132,14 @@ export class ExtGiraffWidget extends React.PureComponent<ComponentProps, IState>
         }
     }
 
-    private loadingSucceedHandler({ height }: IMessageData): void {
+    private handleLoadingSucceed({ height }: IMessageData): void {
         this.setState({
             loadingState: LoadingState.succeed,
             height: height || DEFAULT_HEIGHT
         });
     }
 
-    private loadingFailedHandler(): void {
+    private handleLoadingFailed(): void {
         this.setState({
             loadingState: LoadingState.failed
         });
