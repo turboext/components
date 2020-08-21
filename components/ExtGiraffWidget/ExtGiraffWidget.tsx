@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { render } from 'react-dom';
-import './ExtGiraffWidget.scss';
 import { ExtEmbed } from '../ExtEmbed/ExtEmbed';
 
 interface IState {
@@ -76,12 +75,9 @@ export class ExtGiraffWidget extends React.PureComponent<ComponentProps, IState>
                 {loadingState !== LoadingState.failed && (
                     <ExtEmbed
                         html={htmlString}
-                        iframeClass="ext-embed__ext-giraff-widget"
                         iframeHeight={height.toString()}
+                        iframeWidth={width ? width.toString() : '100%'}
                         isLoaded={loadingState === LoadingState.succeed}
-                        {...(width && {
-                            iframeWidth: width.toString()
-                        })}
                     />
                 )}
             </>
@@ -131,11 +127,10 @@ export class ExtGiraffWidget extends React.PureComponent<ComponentProps, IState>
         }
     }
 
-    private loadingSucceedHandler({ height, width }: IMessageData): void {
+    private loadingSucceedHandler({ height }: IMessageData): void {
         this.setState({
             loadingState: LoadingState.succeed,
-            height: height || DEFAULT_HEIGHT,
-            width
+            height: height || DEFAULT_HEIGHT
         });
     }
 
