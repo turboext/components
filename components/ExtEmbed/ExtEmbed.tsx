@@ -2,6 +2,8 @@ import * as React from 'react';
 
 import './ExtEmbed.scss';
 
+type CallbackFunction = (event: MessageEvent) => void;
+
 interface IProps {
 
     /**
@@ -28,6 +30,11 @@ interface IProps {
      * Признак, загрузился ли встраиваемый виджет
      */
     isLoaded?: boolean;
+
+    /**
+     * Колбек, который нужно вызвать при получении postMessage
+     */
+    onMessage?: CallbackFunction;
 }
 
 interface IState {
@@ -36,6 +43,15 @@ interface IState {
 
 export class ExtEmbed extends React.PureComponent<IProps, IState> {
     public readonly state = { isIframeLoaded: false };
+
+    private iframeRef: React.RefObject<HTMLIFrameElement> = React.createRef();
+
+    public componentDidMount(): void {
+        if (typeof window === 'undefined') {
+            return;
+        }
+        window.addEventListener('message', event => this.handlePostMessage(event));
+    }
 
     public render(): React.ReactNode {
         const {
@@ -66,6 +82,7 @@ export class ExtEmbed extends React.PureComponent<IProps, IState> {
                 {innerHtml &&
                     <iframe
                         height={this.props.iframeHeight}
+                        ref={this.iframeRef}
                         width={this.props.iframeWidth}
                         {...props}
                     />
@@ -88,5 +105,16 @@ export class ExtEmbed extends React.PureComponent<IProps, IState> {
 
     private handleIframeLoaded = () => {
         this.setState({ isIframeLoaded: true });
+    }
+
+    private handlePostMessage(event: MessageEvent): void {
+        const needToProcessMessage =
+            this.iframeRef.current &&
+            event.source === this.iframeRef.current.contentWindow &&
+            event.data;
+
+        if (needToProcessMessage) {
+            this.props.onMessage && this.props.onMessage(event);
+        }
     }
 }

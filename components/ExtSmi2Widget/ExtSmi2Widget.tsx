@@ -56,15 +56,16 @@ export class ExtSmi2Widget extends React.PureComponent<ComponentProps, IState> {
     };
 
     private messagesHandlersMap = {
-        [MessageType.loadingSucceed]: (messageData: IMessageData) => this.loadingSucceedHandler(messageData),
-        [MessageType.loadingFailed]: () => this.loadingFailedHandler()
+        [MessageType.loadingSucceed]: (messageData: IMessageData) => this.handleLoadingSucceed(messageData),
+        [MessageType.loadingFailed]: () => this.handleLoadingFailed()
     };
 
+    private constructor(props: ComponentProps) {
+        super(props);
+        this.handlePostMessage = this.handlePostMessage.bind(this);
+    }
+
     public componentDidMount(): void {
-        if (typeof window === 'undefined') {
-            return;
-        }
-        window.addEventListener('message', this.postMessageHandler.bind(this));
         this.initDimensions();
         this.composeHtmlString();
     }
@@ -84,6 +85,7 @@ export class ExtSmi2Widget extends React.PureComponent<ComponentProps, IState> {
                             iframeClass: '',
                             iframeWidth: width.toString()
                         })}
+                        onMessage={this.handlePostMessage}
                     />
                 )}
             </>
@@ -120,7 +122,7 @@ export class ExtSmi2Widget extends React.PureComponent<ComponentProps, IState> {
         });
     }
 
-    private postMessageHandler(event: MessageEvent): void {
+    private handlePostMessage(event: MessageEvent): void {
         const needToProcessMessage =
             event.data &&
             event.data.message &&
@@ -133,7 +135,7 @@ export class ExtSmi2Widget extends React.PureComponent<ComponentProps, IState> {
         }
     }
 
-    private loadingSucceedHandler({ height, width }: IMessageData): void {
+    private handleLoadingSucceed({ height, width }: IMessageData): void {
         this.setState({
             loadingState: LoadingState.succeed,
             height: height || DEFAULT_HEIGHT,
@@ -141,7 +143,7 @@ export class ExtSmi2Widget extends React.PureComponent<ComponentProps, IState> {
         });
     }
 
-    private loadingFailedHandler(): void {
+    private handleLoadingFailed(): void {
         this.setState({
             loadingState: LoadingState.failed
         });

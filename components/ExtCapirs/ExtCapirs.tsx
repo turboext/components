@@ -56,17 +56,20 @@ export class ExtCapirs extends React.PureComponent<IExtCapirsProps, IState> {
     private messagesHandlersMap = {
         [MessageType.loadingSucceed]: ({ messageData }: IMessageHandlerArguments) =>
             /* eslint-disable-next-line */
-            this.loadingSucceedHandler(messageData),
-        [MessageType.loadingFailed]: () => this.loadingFailedHandler(),
+            this.handleLoadingSucceed(messageData),
+        [MessageType.loadingFailed]: () => this.handleLoadingFailed(),
         [MessageType.getLocation]: ({ origin, source }: IMessageHandlerArguments) => this.sendLocation(source, origin)
     };
+
+    private constructor(props: IExtCapirsProps) {
+        super(props);
+        this.handlePostMessage = this.handlePostMessage.bind(this);
+    }
 
     public componentDidMount(): void {
         if (typeof window === 'undefined') {
             return;
         }
-
-        window.addEventListener('message', event => this.postMessageHandler(event));
 
         // Преобразуем все пришедшие data-пропсы в параметры виджета
         const widgetParams: IWidgetParams = Object.keys(this.props)
@@ -91,6 +94,7 @@ export class ExtCapirs extends React.PureComponent<IExtCapirsProps, IState> {
                 iframeHeight={this.state.height.toString()}
                 iframeWidth={this.state.width === null ? '' : this.state.width.toString()}
                 isLoaded={this.state.loadingState === LoadingState.succeed}
+                onMessage={this.handlePostMessage}
             />
         );
     }
@@ -134,14 +138,14 @@ export class ExtCapirs extends React.PureComponent<IExtCapirsProps, IState> {
         }
     }
 
-    private postMessageHandler(event: MessageEvent): void {
+    private handlePostMessage(event: MessageEvent): void {
         const needToProcessMessage =
-      event.data &&
-      event.data.message &&
-      Object.prototype.hasOwnProperty.call(
-          this.messagesHandlersMap,
-          event.data.message
-      );
+            event.data &&
+            event.data.message &&
+            Object.prototype.hasOwnProperty.call(
+                this.messagesHandlersMap,
+                event.data.message
+            );
 
         if (needToProcessMessage) {
             this.messagesHandlersMap[event.data.message]({
@@ -152,7 +156,7 @@ export class ExtCapirs extends React.PureComponent<IExtCapirsProps, IState> {
         }
     }
 
-    private loadingSucceedHandler(messageData: IMessageData): void {
+    private handleLoadingSucceed(messageData: IMessageData): void {
         this.setState({
             loadingState: LoadingState.succeed,
             height: messageData.height || DEFAULT_HEIGHT,
@@ -160,7 +164,7 @@ export class ExtCapirs extends React.PureComponent<IExtCapirsProps, IState> {
         });
     }
 
-    private loadingFailedHandler(): void {
+    private handleLoadingFailed(): void {
         this.setState({ loadingState: LoadingState.failed });
     }
 

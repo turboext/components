@@ -59,8 +59,12 @@ export class ExtRetellWidget extends React.PureComponent<IProps, IState> {
         [MessageType.RetelllWidgetError]: () => this.handleWidgetError()
     }
 
+    private constructor(props: IProps) {
+        super(props);
+        this.handlePostMessage = this.handlePostMessage.bind(this);
+    }
+
     public componentDidMount(): void {
-        window.addEventListener('message', event => this.handlePostMessage(event));
         this.makeHtml();
     }
 
@@ -75,6 +79,7 @@ export class ExtRetellWidget extends React.PureComponent<IProps, IState> {
                         iframeHeight={DEFAULT_HEIGHT}
                         iframeWidth={DEFAULT_WIDTH}
                         isLoaded={loadingState === LoadingState.ready}
+                        onMessage={this.handlePostMessage}
                     />
                 )}
             </>

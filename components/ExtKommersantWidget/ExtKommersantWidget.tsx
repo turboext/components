@@ -55,9 +55,6 @@ export class ExtKommersantWidget extends React.Component<IWidgetProps, IWidgetSt
     }
 
     public componentDidMount(): void {
-        if (typeof window !== 'undefined') {
-            window.addEventListener('message', event => this.handleMessage(event.data));
-        }
         this.setWidgetHtml();
     }
 
@@ -73,6 +70,7 @@ export class ExtKommersantWidget extends React.Component<IWidgetProps, IWidgetSt
                         iframeHeight={height}
                         iframeWidth={width}
                         isLoaded={isLoaded}
+                        onMessage={this.handleMessage}
                     />
                     {this.props['data-footer-text'] && isLoaded ? (
                         <div className="ext-simple-widget__footer">
@@ -138,7 +136,8 @@ export class ExtKommersantWidget extends React.Component<IWidgetProps, IWidgetSt
         });
     }
 
-    private handleMessage(message: string): void {
+    private handleMessage(event: MessageEvent): void {
+        const message = event && event.data;
         if (isJSON(message)) {
             const parsed = JSON.parse(message);
             if (parsed.id === this.props['data-root-id'] && parsed.type) {
