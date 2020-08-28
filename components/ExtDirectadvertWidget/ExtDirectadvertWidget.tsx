@@ -77,10 +77,8 @@ export class ExtDirectadvertWidget extends React.PureComponent<ComponentProps, I
                     <ExtEmbed
                         html={htmlString}
                         iframeHeight={height.toString()}
+                        iframeWidth={width ? width.toString() : '100%'}
                         isLoaded
-                        {...(width && {
-                            iframeWidth: width.toString()
-                        })}
                     />
                 )}
             </>
@@ -130,11 +128,10 @@ export class ExtDirectadvertWidget extends React.PureComponent<ComponentProps, I
         }
     }
 
-    private loadingSucceedHandler({ height, width }: IMessageData): void {
+    private loadingSucceedHandler({ height }: IMessageData): void {
         this.setState({
             loadingState: LoadingState.succeed,
-            height: height || DEFAULT_HEIGHT,
-            width
+            height: height || DEFAULT_HEIGHT
         });
     }
 
