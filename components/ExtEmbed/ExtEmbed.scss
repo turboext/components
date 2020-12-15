@@ -19,6 +19,10 @@
 .ext-embed {
     position: relative;
 
+    max-width: 100%;
+
+    overflow-x: hidden;
+
     &__iframe {
         overflow: hidden;
 
