@@ -7,6 +7,10 @@ interface IProps {
     'data-height'?: string;
 }
 
+function canUseDom() {
+    return typeof window !== 'undefined' && window.document;
+}
+
 export function ExtGrattisTurboWidget(props: IProps): React.ReactNode {
     const {
         'data-blockid': blockId,
@@ -17,21 +21,26 @@ export function ExtGrattisTurboWidget(props: IProps): React.ReactNode {
     const KEY = 'grattisWidgets';
     const URL_WIDGET_JS = '//cdn-widget.grattis.ru/widget-turbo.min.js';
 
-    let H1 = document.getElementsByTagName('h1');
-    let title = '';
 
-    if (H1.length > 0) {
-        title = H1[0].innerText;
-    } else {
-        title = document.title;
+    let title = '';
+    let url = '';
+
+    if (canUseDom()) {
+        const H1 = typeof window !== 'undefined' && document.getElementsByTagName('h1');
+
+        if (H1 && H1.length > 0) {
+            title = H1[0].innerText;
+        } else {
+            title = document.title;
+        }
+
+        url = location && location.protocol + '//' + location.host + location.pathname;
     }
 
-    const url = location.protocol + '//' + location.host + location.pathname;
-
-    const html = `
+    const html = canUseDom() ? `
 <div class="gw_${blockId}"></div>
 <script type="text/javascript">
-  (function(w, d, n, s, t) {
+    (function(w, d, n, s, t) {
     w[n] = w[n] || [];
     w[n].push({i: "${blockId}", t: "${title}", u: "${url}"});
     t = d.getElementsByTagName("script")[0];
@@ -40,9 +49,9 @@ export function ExtGrattisTurboWidget(props: IProps): React.ReactNode {
     s.src = "${URL_WIDGET_JS}";
     s.async = true;
     t.parentNode.insertBefore(s, t);
-  })(this, this.document, "${KEY}");
+    })(this, this.document, "${KEY}");
 </script>
-`;
+` : '';
 
     return (
         <ExtEmbed
