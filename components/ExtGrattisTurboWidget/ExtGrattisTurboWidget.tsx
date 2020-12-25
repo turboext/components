@@ -7,9 +7,7 @@ interface IProps {
     'data-height'?: string;
 }
 
-function canUseDom() {
-    return typeof window !== 'undefined' && window.document;
-}
+const canUseDom = typeof window !== 'undefined' && Boolean(window.document);
 
 export function ExtGrattisTurboWidget(props: IProps): React.ReactNode {
     const {
@@ -25,19 +23,19 @@ export function ExtGrattisTurboWidget(props: IProps): React.ReactNode {
     let title = '';
     let url = '';
 
-    if (canUseDom()) {
-        const H1 = typeof window !== 'undefined' && document.getElementsByTagName('h1');
+    if (canUseDom) {
+        const H1 = document.getElementsByTagName('h1');
 
         if (H1 && H1.length > 0) {
             title = H1[0].innerText;
         } else {
-            title = document.title;
+            ({ title } = document);
         }
 
-        url = location && location.protocol + '//' + location.host + location.pathname;
+        url = location ? `${location.protocol}//${location.host}${location.pathname}` : '';
     }
 
-    const html = canUseDom() ? `
+    const html = canUseDom ? `
 <div class="gw_${blockId}"></div>
 <script type="text/javascript">
     (function(w, d, n, s, t) {

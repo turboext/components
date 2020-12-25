@@ -39,7 +39,7 @@ if (typeof window !== 'undefined') {
 const canUseDom = typeof window == 'undefined' && window.document && window.document.createElement;
 let a = 1;
 
-if (canUseDome) {
+if (canUseDom) {
   alert(a);
 }
 
