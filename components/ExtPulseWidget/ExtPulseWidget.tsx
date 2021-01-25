@@ -1,41 +1,39 @@
 import * as React from 'react';
 import { ExtEmbed } from '../ExtEmbed/ExtEmbed';
 
+enum WidgetType {
+    Vertical = 'vertical',
+    Horizontal = 'horizontal',
+}
 type Props = {
     'data-height'?: string;
     'data-width'?: string;
     'data-sid': string;
+    'data-widget-type': WidgetType;
 } & Record<string, string | number | boolean>;
 
 export function ExtPulseWidget(props: Props): React.ReactNode {
-    const { 'data-width': dataWidth = '100%', 'data-height': dataHeight = '370', ...rest } = props;
+    const { 'data-width': dataWidth = '100%', 'data-height': dataHeight = '388', ...rest } = props;
 
-    function isTyleWidgetType(key: string): boolean {
-        return key === 'data-widget-type' && rest[key] === 'tyle';
+    function isAnotherWidgetType(key: string): boolean {
+        return key === 'data-widget-type' && ![
+            WidgetType.Horizontal,
+            WidgetType.Vertical
+        ].includes(rest[key]);
     }
 
     function getFormattedParam(key: string, value: string | number | boolean): string {
-        return `${key}=${value}\t`;
-    }
-
-    function getWidgetParams(): string {
-        let params = '';
-
-        for (const key in rest) {
-            if (key.indexOf('data-') === 0) {
-                if (isTyleWidgetType(key)) {
-                    params += getFormattedParam(key, 'horizontal');
-                } else {
-                    params += getFormattedParam(key, rest[key]);
-                }
-            }
+        if (isAnotherWidgetType(key)) {
+            return `${key}=${WidgetType.Horizontal}`;
         }
-        return params;
+        return `${key}=${value}`;
     }
 
     const html = `
       <script async src="https://static.pulse.mail.ru/pulse-widget.js"></script>
-      <div class="pulse-widget" ${getWidgetParams()}></div>`;
+      <div class="pulse-widget" ${Object.keys(rest).filter(key => key.startsWith('data-'))
+        .map(key => getFormattedParam(key, rest[key]))
+        .join(' ')}></div>`;
 
     return (
         <ExtEmbed
