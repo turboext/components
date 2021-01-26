@@ -29,11 +29,13 @@ export function ExtPulseWidget(props: Props): React.ReactNode {
         return `${key}=${value}`;
     }
 
+    const params = Object.keys(rest).filter(key => key.startsWith('data-'))
+        .map(key => getFormattedParam(key, rest[key]))
+        .join(' ');
+
     const html = `
       <script async src="https://static.pulse.mail.ru/pulse-widget.js"></script>
-      <div class="pulse-widget" ${Object.keys(rest).filter(key => key.startsWith('data-'))
-        .map(key => getFormattedParam(key, rest[key]))
-        .join(' ')}></div>`;
+      <div class="pulse-widget" ${params}></div>`;
 
     return (
         <ExtEmbed
