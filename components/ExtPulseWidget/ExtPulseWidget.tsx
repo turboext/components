@@ -16,10 +16,9 @@ export function ExtPulseWidget(props: Props): React.ReactNode {
     const { 'data-width': dataWidth = '100%', 'data-height': dataHeight = '388', ...rest } = props;
 
     function isAnotherWidgetType(key: string): boolean {
-        return key === 'data-widget-type' && ![
-            WidgetType.Horizontal,
-            WidgetType.Vertical
-        ].includes(rest[key]);
+        return key === 'data-widget-type' &&
+        (rest[key].indexOf(WidgetType.Horizontal) < 0 ||
+        rest[key].indexOf(WidgetType.Vertical) < 0);
     }
 
     function getFormattedParam(key: string, value: string | number | boolean): string {
@@ -29,7 +28,7 @@ export function ExtPulseWidget(props: Props): React.ReactNode {
         return `${key}=${value}`;
     }
 
-    const params = Object.keys(rest).filter(key => key.startsWith('data-'))
+    const params = Object.keys(rest).filter(key => key.indexOf('data-') === 0)
         .map(key => getFormattedParam(key, rest[key]))
         .join(' ');
 
