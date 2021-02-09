@@ -61,13 +61,13 @@ export class ExtSvkNativeWidget extends React.PureComponent<IProps, IState> {
                         }
                     });
                     if(!window['_SVKNative_embed']) {
-                        let node = document.createElement('script'); node.type = 'text/javascript'; node.async = true;
+                        var node = document.createElement('script'); node.type = 'text/javascript'; node.async = true;
                         node.src = 'https://widget.svk-native.ru/js/embed.js';
                         (
-                            document.getElementsByTagName('head')[0] || 
+                            document.getElementsByTagName('head')[0] ||
                             document.getElementsByTagName('body')[0]
                         ).appendChild(node);
-                        
+
                     } else {
                         window['_SVKNative_embed'].initWidgets();
                     }
