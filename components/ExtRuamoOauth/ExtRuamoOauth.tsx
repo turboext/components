@@ -1,43 +1,36 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import './ExtRuamoOauth.scss';
 
 
 export function ExtRuamoOauth(): React.ReactNode {
-    const onClick = (): void => {
+    const [
+        label,
+        setLabel
+    ] = useState('');
+    const [
+        href,
+        setHref
+    ] = useState('https://ruamo.ru/signup');
+
+    useEffect(() => {
         if (typeof window !== 'undefined') {
             const userAgent = navigator.userAgent.toLowerCase();
-            if (userAgent.includes('huawei') || userAgent.includes('honor')) {
-                document.location.href = 'https://ruamo.ru/signup';
-            } else if (userAgent.includes('iphone') && userAgent.includes('safari')) {
-                document.location.href = 'https://ruamo.ru/oauth/apple';
+            if (userAgent.includes('iphone') && userAgent.includes('safari')) {
+                setHref('https://ruamo.ru/oauth/apple');
             } else if (userAgent.includes('android') && userAgent.includes('chrome')) {
-                document.location.href = 'https://ruamo.ru/oauth/google';
-            } else {
-                document.location.href = 'https://ruamo.ru/signup';
+                setHref('https://ruamo.ru/oauth/google');
             }
         }
-    };
 
-    const label = (): string => {
         if (typeof window !== 'undefined') {
             const userAgent = navigator.userAgent.toLowerCase();
             if (userAgent.includes('huawei') || userAgent.includes('honor')) {
-                return 'Зарегистрироваться';
+                setLabel('Зарегистрироваться');
             }
-            return 'Войти';
         }
-        return 'Зарегистрироваться';
-    };
+    }, []);
 
-    if (typeof window !== 'undefined') {
-        return (
-            <button
-                className="ruamo-oauth-button" onClick={onClick}
-                type="button"
-            >
-                {label}
-            </button>
-        );
-    }
-    return null;
+    return (
+        <a className="ruamo-oauth-button" href={href}>{label}</a>
+    );
 }
