@@ -6,11 +6,23 @@ interface IProps {
     'data-source': string;
 }
 
-interface IOffer {
+interface IOfferSource {
     marketplace: string;
     link: string;
     caption: string;
     price?: string;
+}
+
+interface IOffer {
+    marketplace: IMarketplace;
+    link: string;
+    caption: string;
+    price?: string;
+}
+
+interface IMarketplace {
+    caption: string;
+    logo: string;
 }
 
 interface IState {
@@ -19,13 +31,7 @@ interface IState {
 }
 
 export class ExtDrive2PartsOffers extends React.Component<IProps, IState> {
-
     public static CLOSED_OFFERS_SIZE = 6;
-
-    public static MARKETPLACE_TITLE = {
-        Drom: 'Дром',
-        Market: 'Драйв'
-    };
 
     public state = {
         offers: [],
@@ -40,10 +46,11 @@ export class ExtDrive2PartsOffers extends React.Component<IProps, IState> {
                 </td>
                 <td className="d2-offers__marketplace-col">
                     <a
-                        className={`d2-offers__marketplace d2-offers__marketplace--${offer.marketplace.toLowerCase()}`}
+                        className="d2-offers__marketplace"
                         href={offer.link}
+                        style={{ backgroundImage: `url(${offer.marketplace.logo})` }}
                     >
-                        {ExtDrive2PartsOffers.MARKETPLACE_TITLE[offer.marketplace]}
+                        {offer.marketplace.caption}
                     </a>
                 </td>
                 <td className="d2-offers__price-col">
@@ -61,10 +68,13 @@ export class ExtDrive2PartsOffers extends React.Component<IProps, IState> {
         if (typeof window !== 'undefined') {
             fetch(source)
                 .then(res => res.json())
-                .then(offers => {
+                .then(data => {
                     this.setState({
-                        offers,
-                        isClosed: offers.length > ExtDrive2PartsOffers.CLOSED_OFFERS_SIZE
+                        offers: data.items.map((offer: IOfferSource) => ({
+                            ...offer,
+                            marketplace: data.marketplaces[offer.marketplace]
+                        })),
+                        isClosed: data.items.length > ExtDrive2PartsOffers.CLOSED_OFFERS_SIZE
                     });
                 })
                 .catch(() => {}); // eslint-disable-line no-empty-function
@@ -90,7 +100,12 @@ export class ExtDrive2PartsOffers extends React.Component<IProps, IState> {
                     </table>
                 </div>
                 {isClosed ?
-                    <button className="turbo-button turbo-button_theme_gray turbo-button_width_max turbo-button_size_m" onClick={this.handleClick} type="button">Показать ещё</button> :
+                    <button
+                        className="turbo-button turbo-button_theme_gray turbo-button_width_max turbo-button_size_m"
+                        onClick={this.handleClick} type="button"
+                    >
+                        Показать ещё
+                    </button> :
                     null
                 }
             </>
