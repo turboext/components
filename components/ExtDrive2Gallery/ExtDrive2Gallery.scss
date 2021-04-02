@@ -1,0 +1,29 @@
+.d2-gallery {
+  display: flex;
+  margin-top: 10px;
+  overflow-x: auto;
+
+  &__item {
+    position: relative;
+    flex: 0 0 33%;
+  }
+
+  &__item::before {
+    content: '';
+    display: block;
+    padding-top: 100%;
+  }
+
+  &__item + &__item {
+    margin-left: 2px;
+  }
+
+  &__pic {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}

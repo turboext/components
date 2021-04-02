@@ -1,0 +1,60 @@
+.d2-posts {
+  display: flex;
+  margin-top: 10px;
+  flex-wrap: wrap;
+
+  & > * {
+    flex-basis: calc(50% - 5px);
+    flex-shrink: 1;
+    min-width: 0;
+    margin: 10px 0 0 10px;
+  }
+
+  & > :nth-child(-n+2) {
+    margin-top: 0;
+  }
+
+  & > :nth-child(2n+1) {
+    margin-left: 0;
+  }
+}
+
+.d2-post {
+  color: #333;
+  text-decoration: none;
+
+  &__photo {
+    position: relative;
+    border-radius: 6px;
+    overflow: hidden;
+    filter: brightness(95%);
+  }
+
+  &__photo::before {
+    content: '';
+    display: block;
+    padding-top: 56.25%;
+  }
+
+  &__pic {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
+
+  &__title {
+    font-size: 13px;
+    font-weight: bold;
+    line-height: 16px;
+    margin: 6px 0 0;
+  }
+
+  &__generation {
+    margin-top: 5px;
+    font-size: 12px;
+    line-height: 14px;
+  }
+}
