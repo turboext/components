@@ -41,7 +41,7 @@ const DEFAULT_WIDTH = '100%';
 function inlineScript(document: Document, callback: Function): void {
     const script = document.createElement('script');
     script.async = true;
-    script.src = '//widget.speechki.org/js/common.min.js';
+    script.src = '//widget.retell.cc/js/common.min.js';
     script.onload = () => {
         callback();
     };
