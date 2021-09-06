@@ -27,7 +27,7 @@ export function ExtRuamoOauth(): React.ReactNode {
 
     return (
         <>
-            <a className="ruamo-oauth-button" href={href()}>{label()}</a>
+            <a className="ext-ruamo-oauth__button" href={href()}>{label()}</a>
         </>
 
     );
