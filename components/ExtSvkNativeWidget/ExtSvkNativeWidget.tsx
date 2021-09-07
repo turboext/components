@@ -9,7 +9,7 @@ interface IProps {
 }
 
 const DEFAULT_WIDTH = '100%';
-const DEFAULT_HEIGHT = '200';
+const DEFAULT_HEIGHT = '300';
 
 interface IState {
     htmlString: string;
