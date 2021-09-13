@@ -1,0 +1,26 @@
+.ext-ruamo-oauth__button {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border: 1px solid #ff0067;
+  border-radius: 4px;
+  color: #000000;
+  font-weight: bold;
+  background-color: white;
+  text-align: center;
+  display: block;
+  font-size: 22px;
+  text-decoration: none;
+  user-select: none;
+  transition: 0.2s transform;
+  width: 100%;
+  margin-top: 20px;
+
+  &:active, &:focus {
+    outline: none;
+    border: 0;
+  }
+
+  &:active {
+    transform: scale(0.96);
+  }
+}
